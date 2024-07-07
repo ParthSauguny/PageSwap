@@ -5,12 +5,10 @@ const usermodel = require("../models/user");
 router.get("/signup" , (req,res) => {
     res.render("signup");
 });
-router.post("/signup",(req,res) => {
-    usermodel.create({
-        name: username,
-        email:email,
-        password:password,
-    })
+router.post("/signup", async(req,res) => {
+    const body = req.body;
+    const userSaved = new usermodel(body);
+    await userSaved.save();
     res.redirect("/");
 });
 
