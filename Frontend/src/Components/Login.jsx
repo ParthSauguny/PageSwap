@@ -1,8 +1,30 @@
 import React from 'react'
+import {Link} from "react-router-dom"
 
 function Login() {
   return (
-    <div>Login</div>
+    <div className='flex justify-between flex-col mx-96 bg-amber-600'>
+      <h1 className='text-center text-6xl my-2'>Login</h1>
+      <form action="/" method="post" className=' flex justify-between flex-col px-24 my-6'>
+          <div className=' flex justify-between'>
+              <label>Enter your name</label>
+              <input type="text" placeholder='username' />
+          </div>
+
+          <div className=' flex justify-between'>
+              <label>Enter your email</label>
+              <input type="email" placeholder='email' />
+          </div>
+
+          <div className=' flex justify-between'>
+              <label>Enter your password</label>
+              <input type="password" placeholder='password' />
+          </div>
+
+      </form>
+
+      <h1>New User? <Link className=' text-pink-400' to="/user/signup"> Register yourself here </Link> </h1>
+    </div>
   )
 }
 
