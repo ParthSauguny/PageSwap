@@ -8,7 +8,7 @@ function Navbar() {
         <Link to="/">Home</Link>
         <Link to="/about-us">About Us</Link>
         <Link to="/user/login">
-            <button className=' border-4 border-y-black p-2 rounded-3xl bg-green-600'>Login</button>
+            <button className=' border-4 p-2 rounded-3xl bg-green-600'>Login</button>
         </Link>
     </div>
   )

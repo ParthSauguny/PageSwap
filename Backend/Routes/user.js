@@ -5,6 +5,7 @@ const usermodel = require("../models/user");
 router.get("/signup" , (req,res) => {
     res.render("signup");
 });
+
 router.post("/signup", async(req,res) => {
     const body = req.body;
     const userSaved = new usermodel(body);

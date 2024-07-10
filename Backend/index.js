@@ -11,6 +11,8 @@ mongo.connect("mongodb://localhost:27017/PageSwap")
 
 app.use(express.urlencoded({type: false}));
 
+app.route("/user" , userRouter);
+app.route("/book" , bookRouter);
 
 app.get('/' , (req,res) => {
     res.send("hello");
