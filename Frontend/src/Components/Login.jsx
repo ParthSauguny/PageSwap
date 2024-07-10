@@ -17,7 +17,7 @@ function Login() {
           </div>
 
           <div>
-            <button className=' bg-green-600 border-orange-500 border-2 rounded-lg p-2'>Login</button>
+            <button type='submit' className=' bg-green-600 border-orange-500 border-2 rounded-lg p-2'>Login</button>
           </div>
 
       </form>
