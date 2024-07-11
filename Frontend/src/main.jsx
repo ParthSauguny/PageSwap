@@ -9,6 +9,7 @@ import Signup from './Components/Signup';
 import BorrowBook from './Components/BorrowBook';
 import Home from './Components/Home';
 import AboutUs from './Components/AboutUs';
+import ExchangeBook from './Components/Exchange-book';
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -19,6 +20,7 @@ const router = createBrowserRouter(
     <Route path='/book/donate' element={<GiveBook/>}/>
     <Route path='/book/borrow' element={<BorrowBook/>}/>
     <Route path='/about-us' element={<AboutUs/>}/>
+    <Route path='/book/exchange' element={<ExchangeBook/>}/>
   </Route>
   )
 )

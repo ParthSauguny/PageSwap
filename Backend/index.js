@@ -9,7 +9,7 @@ const app = express();
 mongo.connect("mongodb://localhost:27017/PageSwap")
 .then(() => console.log("connected to database"));
 
-app.use(express.urlencoded({type: false}));
+app.use(express.urlencoded({type: true}));
 
 app.route("/user" , userRouter);
 app.route("/book" , bookRouter);
