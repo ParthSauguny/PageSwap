@@ -8,8 +8,13 @@ router.get("/signup" , (req,res) => {
 
 router.post("/signup", async(req,res) => {
     const body = req.body;
-    const userSaved = new usermodel(body);
-    await userSaved.save();
+    const newUser = {
+        username: body.username,
+        email: body.email,
+        password: body.password,
+    }
+    usermodel.create(newUser);
+    
     res.redirect("/");
 });
 

@@ -2,8 +2,14 @@ import React from 'react'
 
 function ExchangeBook() {
   return (
-    <div>
+    <div className='flex flex-row justify-between'>
+      <div>
+        
+      </div>
 
+      <div>
+
+      </div>
     </div>
   )
 }
