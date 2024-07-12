@@ -21,6 +21,10 @@ function Home() {
             <Link to="/book/exchange"> <button className='bg-black border-white border-2 rounded-xl p-2 my-4 mx-3 hover:bg-slate-500'> Go to exchange page </button> </Link>
           </div>
         </div>
+
+        <div>
+          
+        </div>
     </>
   )
 }

@@ -7,17 +7,23 @@ router.get("/signup" , (req,res) => {
 });
 
 router.post("/signup", async(req,res) => {
-    const body = req.body;
-    const newUser = {
-        username: body.username,
-        email: body.email,
-        password: body.password,
-    }
-    usermodel.create(newUser);
-    
+    const {username , email , password} = req.body;
+    await usermodel.create({
+        username,
+        email,
+        password,
+    })
     res.redirect("/");
 });
 
 router.get("/login" , (req,res) => {
     res.render("login");
+});
+
+router.post("/login" , (req,res) => {
+    try {
+        const {email , password} = req.body;
+    } catch (error) {
+        res.redirect("login" , {error:"incorrect email or password"});
+    }
 });
