@@ -4,7 +4,7 @@ import {Link} from "react-router-dom"
 function Navbar() {
   return (
     <div className=' bg-slate-300 flex justify-between h-16 text-3xl mx-4 my-4 rounded-3xl'>
-        <div className=' px-3 text-5xl text-sky-900'>PageSwap</div>
+        <div className='px-3 text-5xl text-sky-900'>PageSwap</div>
         <Link className=' hover:text-red-400' to="/">Home</Link>
         <Link className=' hover:text-red-400' to="/about-us">About Us</Link>
         <Link to="/user/login">
