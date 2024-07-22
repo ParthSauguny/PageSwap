@@ -8,7 +8,7 @@ const donatebookSchema = new Schema({
     genre:{
         type:String,
         required:true,
-    },
+    }
 } , {timestamps: true});
 const DonateBook = model("donatebook" , donatebookSchema);
 

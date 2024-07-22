@@ -26,7 +26,7 @@ function GiveBook() {
         </div>
 
         <div>
-          <input type="file" name="file" required/>
+          <input type="file" name="book_file" required/>
           <button type="submit" className='bg-black border-white border-2 rounded-xl p-2 my-4 mx-3 hover:bg-slate-500'> Donate Book </button>
         </div>
       </form>

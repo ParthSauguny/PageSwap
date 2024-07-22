@@ -8,11 +8,17 @@ router.get("/signup" , (req,res) => {
 
 router.post("/signup", async(req,res) => {
     const {username , email , password} = req.body;
-    await usermodel.create({
-        username,
-        email,
-        password,
-    })
+    try {
+        const newuser = new usermodel({
+            username,
+            email,
+            password,
+        });
+        console.log("user is: ",newuser);
+        user.save();
+    } catch (error) {
+        console.log("error" , error);
+    }
     res.redirect("/");
 });
 
