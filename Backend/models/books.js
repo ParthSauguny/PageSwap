@@ -10,7 +10,7 @@ const donatebookSchema = new Schema({
         required:true,
     }
 } , {timestamps: true});
-const DonateBook = model("donatebook" , donatebookSchema);
+const DonateBook = model("DonateBook" , donatebookSchema);
 
 const bookforborrow = new Schema({
     title:{
@@ -26,7 +26,7 @@ const bookforborrow = new Schema({
         required:true,
     },
 } , {timestamps: true});
-const BorrowBook = model("bookforborrow" , bookforborrow);
+const BorrowBook = model("BorrowBook" , bookforborrow);
 
 const BookforExchange = new Schema({
     titleofYours:{
@@ -46,7 +46,7 @@ const BookforExchange = new Schema({
         required:true,
     },
 });
-const ExchangeBook = model("bookforexchange" , BookforExchange);
+const ExchangeBook = model("ExchangeBook" , BookforExchange);
 
 module.exports = [
     DonateBook,

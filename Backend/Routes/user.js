@@ -6,21 +6,27 @@ router.get("/signup" , (req,res) => {
     res.render("signup");
 });
 
-router.post("/signup", async(req,res) => {
+
+router.post("/signup" , async(req,res) => {
     const {username , email , password} = req.body;
+    if (!username || !email || !password) {
+        return res.status(400).send('All fields are required');
+    }
+    
     try {
         const newuser = new usermodel({
-            username,
-            email,
-            password,
+            username: username,
+            email:email,
+            password:password,
         });
         console.log("user is: ",newuser);
-        user.save();
+        await newuser.save();
     } catch (error) {
         console.log("error" , error);
     }
     res.redirect("/");
 });
+
 
 router.get("/login" , (req,res) => {
     res.render("login");
