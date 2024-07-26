@@ -25,6 +25,10 @@ const bookforborrow = new Schema({
         type:Number,
         required:true,
     },
+    pickupAddress:{
+        type:String,
+        required:true,
+    },
 } , {timestamps: true});
 const BorrowBook = model("BorrowBook" , bookforborrow);
 
@@ -42,6 +46,14 @@ const BookforExchange = new Schema({
         required:true,
     },
     genreofYouWant:{
+        type:String,
+        required:true,
+    },
+    yourAddress:{
+        type:String,
+        required:true,
+    },
+    otherPersonsAddress:{
         type:String,
         required:true,
     },

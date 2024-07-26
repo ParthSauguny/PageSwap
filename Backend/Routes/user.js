@@ -2,9 +2,9 @@ const express = require("express");
 const router = express.Router();
 const usermodel = require("../models/user");
 
-// router.get("/signup" , (req,res) => {
-//     res.render("signup");
-// });
+router.get("/signup" , (req,res) => {
+    res.render("signup");
+});
 
 
 router.route("/signup").post(async(req,res) => {
@@ -26,7 +26,7 @@ router.route("/signup").post(async(req,res) => {
     res.redirect("/");
 });
 
-/*
+
 router.get("/login" , (req,res) => {
     res.render("login");
 });
@@ -38,5 +38,5 @@ router.post("/login" , (req,res) => {
         res.redirect("login" , {error:"incorrect email or password"});
     }
 }); 
-*/
+
 module.exports = router;
