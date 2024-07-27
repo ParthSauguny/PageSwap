@@ -31,12 +31,41 @@ router.get("/login" , (req,res) => {
     res.render("login");
 });
 
-router.post("/login" , (req,res) => {
+router.route("/login").post(async(req,res) => {
+    const {email , password} = req.body;
+    if(!email || !password) {
+        throw new Error("a field is missing");
+    }
     try {
-        const {email , password} = req.body;
-    } catch (error) {
-        res.redirect("login" , {error:"incorrect email or password"});
+
+        const user = usermodel.findOne({email});
+        if(!user){
+            throw new Error("user not found");
+        }
+
+        const ispasswordvalid = await user.isCorrectPassword(password);
+        if(!ispasswordvalid)
+            throw new Error("invalid password");
+
+        const accesstoken = user.generateAccessToken();
+        const refreshtoken = user.generateRefreshToken();
+        user.refreshtoken = refreshtoken;
+
+        user.save({usermodel,validate:false});
+
+        const options = {
+            httpOnly:true,
+            secure:true
+        }
+        return res.status(200).cookie("accesstoken" , accesstoken , options).cookie("refreshtoken" , refreshtoken , options);
+    } 
+    catch (error) {
+        res.redirect("/login");
     }
 }); 
+
+router.get("/logout", (req, res) => {
+    res.clearCookie("accessToken").clearCookie("refreshToken").redirect("/");
+  });
 
 module.exports = router;

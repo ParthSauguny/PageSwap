@@ -1,7 +1,6 @@
 const mongo = require("mongoose");
 const jwt = require("jsonwebtoken");
-const bcrypt = require("bcrypt");
-require("../.env").configure();
+const bcrypt = require("bcrypt");;
 
 const userSchema = new mongo.Schema({
     username:{
@@ -17,6 +16,9 @@ const userSchema = new mongo.Schema({
     password:{
         type: String,
         required: true,
+    },
+    refreshtoken:{
+        type:String,
     }
 } , {timestamps: true});
 
