@@ -1,8 +1,8 @@
-# PageSwap - a Book Exchange Platform
+# PageSwap - a Book Exchange Platform 📚
 
 ## Overview
 
-PageSwap is a web development project aimed at creating a platform where users can exchange, donate, or obtain E-books. The platform is designed to foster a community of learners and givers, making knowledge more accessible and promoting the reuse of digital resources.
+PageSwap is a web development project aimed at creating a platform where users can exchange, donate, or obtain books. The platform is designed to foster a community of learners and givers, making knowledge more accessible and promoting the reuse of digital resources.
 
 ## 🚧 Work in Progress
 This project is currently under development. Features and functionalities are subject to change as development progresses.
