@@ -2,7 +2,7 @@ import React from 'react'
 
 function AboutUs() {
   return (
-    <div className='align-middle bg-slate-800 m-2 px-10 py-1 rounded-lg'>
+    <div className='align-middle bg-slate-800 m-2 px-10 py-1 rounded-lg text-white'>
         <h1 className='text-center text-6xl my-3'>About Us</h1>
         <p className=' text-lg'>Welcome to PageSwap, your go-to online community for exchanging e-books! At PageSwap, we believe in the power of sharing and the joy of discovering new books. 
             Our mission is to create a vibrant and inclusive platform where book lovers can connect, share, and explore a world of literary treasures.

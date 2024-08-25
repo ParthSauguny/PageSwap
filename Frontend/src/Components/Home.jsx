@@ -13,12 +13,12 @@ function Home() {
         <div className='flex flex-row p-4 mx-48'>
           <div className='text-2xl flex flex-col m-28'>
             Donate a book?
-            <Link to="book/donate"> <button className='bg-black border-white border-2 rounded-xl p-2 my-4 mx-3 hover:bg-slate-500'>Donate an E-Book</button> </Link>
+            <Link to="book/donate"> <button className=' bg-black text-white border-white border-2 rounded-xl p-2 my-4 mx-3 hover:bg-slate-700'>Donate an E-Book</button> </Link>
           </div>
 
           <div className='text-2xl flex flex-col m-28'>
             Exchange a book? 
-            <Link to="/book/exchange"> <button className='bg-black border-white border-2 rounded-xl p-2 my-4 mx-3 hover:bg-slate-500'> Go to exchange page </button> </Link>
+            <Link to="/book/exchange"> <button className=' bg-black text-white border-white border-2 rounded-xl p-2 my-4 mx-3 hover:bg-slate-700'> Go to exchange page </button> </Link>
           </div>
         </div>
 

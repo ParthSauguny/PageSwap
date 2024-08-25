@@ -1,15 +1,26 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import {Link} from "react-router-dom"
-import axios from "axios"
+//import axios from "axios"
 
 function Login() {
+  const [logindata,setLogindata] = useState({email:"" , password:""});
 
-  useEffect(() => {
-    axios.post("http://localhost:8000/user/login" , {
-      email: email,
-      password: password,
+  function changehandler(event){
+    setLogindata((prevdata)=>{
+      //console.log(logindata);
+      return {
+        ...prevdata,
+        [event.target.name] : event.target.value
+      }
     })
-   })
+  }
+
+  // useEffect(() => {
+  //   axios.post("http://localhost:8000/user/login" , {
+  //     email: email,
+  //     password: password,
+  //   })
+  //  })
   
 
   return (
@@ -18,12 +29,12 @@ function Login() {
       <form action="" method="post" className=' flex justify-between flex-col px-24 my-6'>
           <div className=' flex justify-between m-4 text-xl'>
               <label>Enter your email</label>
-              <input type="email" placeholder='email' name='email'/>
+              <input type="email" placeholder='email' name="email" onChange={changehandler} value={logindata.email}/>
           </div>
 
           <div className=' flex justify-between m-4 text-lg'>
               <label>Enter your password</label>
-              <input type="password" placeholder='password' name='password'/>
+              <input type="password" placeholder='password' name="password" onChange={changehandler} value={logindata.password}/>
           </div>
 
           <div className='mx-48 my-6'>
