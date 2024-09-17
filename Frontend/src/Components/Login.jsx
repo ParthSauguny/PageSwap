@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import {Link} from "react-router-dom"
-//import axios from "axios"
+import axios from "axios"
 
 function Login() {
   const [logindata,setLogindata] = useState({email:"" , password:""});
@@ -15,13 +15,13 @@ function Login() {
     })
   }
 
-  // useEffect(() => {
-  //   axios.post("http://localhost:8000/user/login" , {
-  //     email: email,
-  //     password: password,
-  //   })
-  //  })
-  
+  function submitHandler(event){
+    event.preventDefault();
+    axios.post("http://localhost:8000/user/login" , {
+      email: logindata.email,
+      password: logindata.password,
+    })
+  }
 
   return (
     <div className='flex justify-between flex-col mx-96 bg-slate-800'>
@@ -29,16 +29,16 @@ function Login() {
       <form action="" method="post" className=' flex justify-between flex-col px-24 my-6'>
           <div className=' flex justify-between m-4 text-xl'>
               <label>Enter your email</label>
-              <input type="email" placeholder='email' name="email" onChange={changehandler} value={logindata.email}/>
+              <input type="email" placeholder='enter email' name="email" onChange={changehandler} value={logindata.email}/>
           </div>
 
           <div className=' flex justify-between m-4 text-lg'>
               <label>Enter your password</label>
-              <input type="password" placeholder='password' name="password" onChange={changehandler} value={logindata.password}/>
+              <input type="password" placeholder='enter password' name="password" onChange={changehandler} value={logindata.password}/>
           </div>
 
           <div className='mx-48 my-6'>
-            <button type='submit' className='bg-black hover:bg-slate-400 rounded-lg p-2'>Login</button>
+            <button type='submit' onClick={submitHandler} className='bg-black hover:bg-slate-400 rounded-lg p-2'>Login</button>
           </div>
 
       </form>
