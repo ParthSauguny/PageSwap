@@ -3,7 +3,6 @@ import ReactDOM from 'react-dom/client'
 import { createBrowserRouter, createRoutesFromElements, Route, RouterProvider } from "react-router-dom"
 import "./index.css"
 import Layout from './Layout';
-import GiveBook from "./Components/GiveBook"
 import Login from './Components/Login';
 import Signup from './Components/Signup';
 import BorrowBook from './Components/BorrowBook';
@@ -17,7 +16,6 @@ const router = createBrowserRouter(
     <Route path='' element={<Home/>}/>
     <Route path='/user/login' element={<Login/>}/>
     <Route path='/user/signup' element={<Signup/>}/>
-    <Route path='/book/donate' element={<GiveBook/>}/>
     <Route path='/book/borrow' element={<BorrowBook/>}/>
     <Route path='/about-us' element={<AboutUs/>}/>
     <Route path='/book/exchange' element={<ExchangeBook/>}/>
