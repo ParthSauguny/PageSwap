@@ -2,6 +2,7 @@ const express = require("express");
 const mongo = require("mongoose");
 const bookRouter = require("./Routes/booksroutes");
 const userRouter = require("./Routes/user.js");
+const cors = require("cors");
 
 const PORT = process.env.PORT || 8000;
 
@@ -14,6 +15,7 @@ mongo.connect("mongodb://localhost:27017/PageSwap")
 app.use(express.json());
 app.use(express.urlencoded({extended: true}));
 app.use(express.static("uploads"));
+app.use(cors);
 app.use("/user" , userRouter);
 app.use("/book" , bookRouter);
 

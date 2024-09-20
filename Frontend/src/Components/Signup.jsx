@@ -13,7 +13,7 @@ function Signup() {
   const changeHandler = (event)=> {
     setsignupData((prevData) => {
       return {
-        ...signupData,
+        ...prevData,
         [event.target.name] : event.target.value
       }
     })
@@ -21,7 +21,7 @@ function Signup() {
 
   function submitHandler(e){
     e.preventDefault();
-    axios.post("http://localhost:8000/user/login" ,
+    axios.post("/user/signup",
       {username: signupData.username,
       email: signupData.email,
       password: signupData.password,}
@@ -29,7 +29,7 @@ function Signup() {
   }
 
   return (
-    <div className='flex justify-between flex-col mx-96 bg-slate-800'>
+    <div className='flex justify-between flex-col mx-96 bg-slate-400'>
       <h1 className='text-center text-6xl my-2'>Sign up</h1>
       <form action="/" method="post" className=' flex justify-between flex-col px-24 my-6'>
           <div className=' flex justify-between m-4 text-lg'>
@@ -48,12 +48,12 @@ function Signup() {
           </div>
 
           <div className='mx-44 my-5'>
-            <button onClick={submitHandler} className='bg-black hover:bg-slate-400 rounded-lg p-2'>Sign Up</button>
+            <button onClick={submitHandler} className='bg-black text-white border-white border-2 hover:bg-slate-400 rounded-lg p-2'>Sign Up</button>
           </div>
 
       </form>
 
-      <h1 className='text-center'>Already have an Account? <Link className=' text-blue-200' to="/user/login"> Click to login </Link> </h1>
+      <h1 className='text-center'>Already have an Account? <Link className=' text-blue-600' to="/user/login"> Click to login </Link> </h1>
     </div>
   )
 }
