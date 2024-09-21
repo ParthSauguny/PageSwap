@@ -14,7 +14,6 @@ mongo.connect("mongodb://localhost:27017/PageSwap")
 
 app.use(express.json());
 app.use(express.urlencoded({extended: true}));
-app.use(express.static("uploads"));
 app.use(cors);
 app.use("/user" , userRouter);
 app.use("/book" , bookRouter);
@@ -22,6 +21,5 @@ app.use("/book" , bookRouter);
 app.get('/' , (req,res) => {
     res.send("hello");
 });
-
 
 app.listen(PORT , () => console.log("server started..."));

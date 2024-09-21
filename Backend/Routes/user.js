@@ -6,14 +6,13 @@ router.get("/signup" , (req,res) => {
     res.render("signup");
 });
 
-
 router.route("/signup").post(async(req,res) => {
-    const {username , email , password} = req.body;
+    const {username , email , password} = req.body; 
 
     if (!username || !email || !password) {
         return res.status(400).send('All fields are required');
     }
-    
+
     try {
         await usermodel.create({
             username,

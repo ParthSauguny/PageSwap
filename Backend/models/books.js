@@ -1,17 +1,5 @@
 const { Schema, model } = require("mongoose");
 
-const donatebookSchema = new Schema({
-    title:{
-        type:String,
-        required:true,
-    },
-    genre:{
-        type:String,
-        required:true,
-    }
-} , {timestamps: true});
-const DonateBook = model("DonateBook" , donatebookSchema);
-
 const bookforborrow = new Schema({
     title:{
         type:String,
@@ -53,15 +41,10 @@ const BookforExchange = new Schema({
         type:String,
         required:true,
     },
-    otherPersonsAddress:{
-        type:String,
-        required:true,
-    },
 });
 const ExchangeBook = model("ExchangeBook" , BookforExchange);
 
 module.exports = [
-    DonateBook,
-    BorrowBook,
     ExchangeBook,
+    BorrowBook,
 ];

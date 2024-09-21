@@ -1,24 +1,36 @@
 const express = require("express");
 const router = express.Router();
-const mult = require("multer");
-const upload = mult({ dest: './uploads/' })
-const {DonateBook , BorrowBook} = require("../models/books");
+const {ExchangeBook , BorrowBook} = require("../models/books");
 
-router.post("/borrow" , (req,res) => {
-    const {} = req.body;
+router.post("/exchange" , async(req,res) => {
+    const {titleofYours , genreofYours , titleofYouWant , genreofYouWant , yourAddress} = req.body;
+    await ExchangeBook.create({
+        titleofYours,
+        genreofYours,
+        titleofYouWant,
+        genreofYouWant,
+        yourAddress,
+    })
+    res.redirect('/');
 });
 
 router.get("/exchange" , (req,res) => {
     res.send("this is take page");
 });
 
-router.post("/donate" , upload.single("book_file") , async(req,res) =>{
-    const {title , genre} = req.body;
-    await DonateBook.create({
+router.get("/borrow" , (req,res) => {
+    res.send("this is take page");
+});
+
+router.post("/borrow" , async(req,res) =>{
+    const {title , genre , price , pickupAddress} = req.body;
+    await BorrowBook.create({
         title,
         genre,
+        price,
+        pickupAddress,
     });
-    res.redirect("/" , {alert: "book added"});
+    res.redirect("/");
 });
 
 module.exports = router;
