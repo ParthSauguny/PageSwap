@@ -25,7 +25,6 @@ router.route("/signup").post(async(req,res) => {
     res.redirect("/");
 });
 
-
 router.get("/login" , (req,res) => {
     res.render("login");
 });

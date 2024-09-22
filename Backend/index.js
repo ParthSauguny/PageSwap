@@ -5,10 +5,11 @@ const userRouter = require("./Routes/user.js");
 const cors = require("cors");
 
 const PORT = process.env.PORT || 8000;
+const db_url = process.env.DB_URL;
 
 const app = express();
 
-mongo.connect("mongodb://localhost:27017/PageSwap")
+mongo.connect(db_url)
 .then(() => console.log("connected to database"))
 .catch(error=>console.log(error));
 

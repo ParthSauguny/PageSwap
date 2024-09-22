@@ -1,6 +1,7 @@
 const mongo = require("mongoose");
 const jwt = require("jsonwebtoken");
-const bcrypt = require("bcrypt");;
+const bcrypt = require("bcrypt");
+require('dotenv').config();
 
 const userSchema = new mongo.Schema({
     username:{
@@ -30,7 +31,7 @@ userSchema.pre("save" , async function(next){
 });
 
 userSchema.methods.isCorrectPassword = async function(password){
-    return await bcrypt.compare(password , this.password)
+    return await bcrypt.compare(password , this.password);
 }
 
 userSchema.methods.generateAccessToken = function(){
@@ -39,7 +40,8 @@ userSchema.methods.generateAccessToken = function(){
         username:this.username,
         email:this.email,
         password:this.password,
-    } , process.env.ACCESS_TOKEN_SECRET , 
+    },
+    process.env.ACCESS_TOKEN_SECRET, 
     {
         expiresIn:process.env.ACCESS_TOKEN_EXPIRY
     }
