@@ -1,15 +1,13 @@
 const express = require("express");
 const router = express.Router();
-const {ExchangeBook , BorrowBook} = require("../models/books");
+const {Book} = require("../models/books");
 
-router.post("/exchange" , async(req,res) => {
-    const {titleofYours , genreofYours , titleofYouWant , genreofYouWant , yourAddress} = req.body;
+router.post("/add-book" , async(req,res) => {
+    const {title , genre , address} = req.body;
     await ExchangeBook.create({
-        titleofYours,
-        genreofYours,
-        titleofYouWant,
-        genreofYouWant,
-        yourAddress,
+        title,
+        genre,
+        address,
     })
     res.redirect('/');
 });

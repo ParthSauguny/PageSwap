@@ -1,50 +1,56 @@
 const { Schema, model } = require("mongoose");
 
-const bookforborrow = new Schema({
-    title:{
+const bookSchema = new Schema({
+    title: {
         type:String,
         required:true,
     },
-    genre:{
+    owner: {
+        type: String,
+        required: true,
+    },
+    borrower: {
+        type: String,
+        default: null
+    },
+    exchangeRequest: {
+        requestedBy: { type: String, default: null },
+        requestedTo: { type: String, default: null },
+        exchangeBookId: { type: String, default: null },
+        status: {
+          type: String,
+          enum: ["pending", "accepted", "rejected"],
+          default: null
+        }
+    },
+    history: [
+        {
+          action: { type: String, enum: ["borrowed", "lent", "exchanged"] },
+          userId: { type: String },
+          date: { type: Date, default: Date.now }
+        }
+    ],
+    author:{
+        type: String,
+        required: true,
+    },
+    genre: {
         type:String,
         required:true,
     },
-    price:{
-        type:Number,
-        required:true,
+    available: {
+        type: Boolean,
+        default: true
     },
-    pickupAddress:{
+    address: {
         type:String,
         required:true,
     },
+    price: {
+        type: Number
+    }
 } , {timestamps: true});
-const BorrowBook = model("BorrowBook" , bookforborrow);
 
-const BookforExchange = new Schema({
-    titleofYours:{
-        type:String,
-        required:true,
-    },
-    genreofYours:{
-        type:String,
-        required:true,
-    },
-    titleofYouWant:{
-        type:String,
-        required:true,
-    },
-    genreofYouWant:{
-        type:String,
-        required:true,
-    },
-    yourAddress:{
-        type:String,
-        required:true,
-    },
-});
-const ExchangeBook = model("ExchangeBook" , BookforExchange);
+const Book = model("Book" , bookSchema);
 
-module.exports = [
-    ExchangeBook,
-    BorrowBook,
-];
+module.exports = Book;
