@@ -13,9 +13,14 @@ mongo.connect(db_url)
 .then(() => console.log("connected to database"))
 .catch(error=>console.log(error));
 
+app.use(cors);
+const corsOptions = {
+    origin: "http://localhost:5173",
+    methods: "GET , POST , PUT",
+    Credentials: true,
+}
 app.use(express.json());
 app.use(express.urlencoded({extended: true}));
-app.use(cors);
 app.use("/user" , userRouter);
 app.use("/book" , bookRouter);
 
