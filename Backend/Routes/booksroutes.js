@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express.Router();
-const {Book} = require("../models/books");
+const Book = require("../models/books");
 
 router.post("/add-book" , async(req,res) => {
     try {
@@ -14,20 +14,20 @@ router.post("/add-book" , async(req,res) => {
               exchangeBookId: req.body.exchangeRequest?.exchangeBookId || null,
               status: req.body.exchangeRequest?.status || null
             },
-            history: req.body.history || [], // Optional, default to an empty array
             author: req.body.author,
             genre: req.body.genre,
             available: req.body.available !== undefined ? req.body.available : true, // Default to true if not provided
             address: req.body.address,
-            price: req.body.price || 0 // Optional, default to 0 if not provided
+            price: req.body.price // Optional, default to 0 if not provided
         });
     } catch (error) {
         res.status(400).json({ message: error.message });
     }
+    res.send("added");
 });
 
 router.get("/add-book" , (req,res) => {
-    res.send("this is book page");
+    res.send({});
 });
 
 module.exports = router;

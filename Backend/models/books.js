@@ -23,13 +23,6 @@ const bookSchema = new mongo.Schema({
           default: null
         }
     },
-    history: [
-        {
-          action: { type: String, enum: ["borrowed", "lent", "exchanged"], default: null},
-          userId: { type: String, default: null},
-          date: { type: Date, default: null}
-        }
-    ],
     author:{
         type: String,
         required: true,
