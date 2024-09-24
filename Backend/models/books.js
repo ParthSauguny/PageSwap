@@ -1,6 +1,6 @@
-const { Schema, model } = require("mongoose");
+const mongo = require("mongoose");
 
-const bookSchema = new Schema({
+const bookSchema = new mongo.Schema({
     title: {
         type:String,
         required:true,
@@ -25,9 +25,9 @@ const bookSchema = new Schema({
     },
     history: [
         {
-          action: { type: String, enum: ["borrowed", "lent", "exchanged"] },
-          userId: { type: String },
-          date: { type: Date, default: Date.now }
+          action: { type: String, enum: ["borrowed", "lent", "exchanged"], default: null},
+          userId: { type: String, default: null},
+          date: { type: Date, default: null}
         }
     ],
     author:{
@@ -47,10 +47,11 @@ const bookSchema = new Schema({
         required:true,
     },
     price: {
-        type: Number
+        type: Number,
+        default: 0
     }
 } , {timestamps: true});
 
-const Book = model("Book" , bookSchema);
+const Book = mongo.model("Book" , bookSchema);
 
 module.exports = Book;
