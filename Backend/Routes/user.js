@@ -1,16 +1,20 @@
 const express = require("express");
 const router = express.Router();
 const usermodel = require("../models/user");
-
-router.get("/signup" , (req,res) => {
-    res.sendStatus(200);
-});
+const User = require("../models/user");
 
 router.route("/signup").post(async(req,res) => {
-    const {username , email , password} = req.body; 
+    const {username , email , password} = req.body;
+    
+    if (!username || !email || !password ) {
+        return res.status(400);
+    }
 
-    if (!(username || email || password) ) {
-        return res.status(400).send('All fields are required');
+    const existingUser = await usermodel.findOne({ $or: [{ username }, { email }] });
+    
+    if (existingUser) {
+      // If the username or email already exists, return a 400 response
+      return res.status(400);
     }
 
     try {
@@ -19,14 +23,10 @@ router.route("/signup").post(async(req,res) => {
             email,
             password
         })
+        res.send({status: 200});
     } catch (error) {
         console.log("error" , error);
     }
-    res.redirect("/");
-});
-
-router.get("/login" , (req,res) => {
-    res.sendStatus(200);
 });
 
 router.route("/login").post(async(req,res) => {
