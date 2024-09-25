@@ -1,11 +1,11 @@
 import React from 'react'
 
-function BorrowBook() {
+function AddBook() {
   return (
     <div>
-      
+        Add-book 
     </div>
   )
 }
 
-export default BorrowBook
+export default AddBook

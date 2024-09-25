@@ -39,7 +39,7 @@ function Login() {
           </div>
 
           <div className='mx-48 my-6'>
-            <button type='submit' onClick={submitHandler} className='bg-black text-white border-white border-2 hover:bg-slate-400 rounded-lg p-2'>Login</button>
+            <button type='submit' onClick={submitHandler} className='bg-black text-white border-white border-2 hover:bg-slate-100 hover:text-black hover:border-black rounded-lg p-2'>Login</button>
           </div>
 
       </form>

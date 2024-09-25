@@ -2,6 +2,7 @@ import React from 'react'
 import axios from 'axios'
 import {Link} from "react-router-dom"
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import {toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
@@ -12,6 +13,8 @@ function Signup() {
     password: ""
   });
 
+  const navigate = useNavigate();
+
   const changeHandler = (event)=> {
     setsignupData((prevData) => {
       return {
@@ -21,14 +24,24 @@ function Signup() {
     })
   }
 
-  function submitHandler(e){
+  async function submitHandler(e){
     e.preventDefault();
-    axios.post("/user/signup",
-      {username: signupData.username,
-      email: signupData.email,
-      password: signupData.password,}
-    )
-    toast.success("signed up successfully!!");
+    try {
+      const response = await axios.post("/user/signup",
+        signupData
+      );
+  
+      if(response.status === 200){
+        navigate("/");
+        toast.success("signed up successfully!!");
+      }
+    } catch (error) {
+      if (error.response && error.response.status === 400) {
+        toast.warning("Username or email exists");
+      } else {
+        toast.error("Something went wrong, please try again!");
+      }
+    }
   }
 
   return (
@@ -51,7 +64,7 @@ function Signup() {
           </div>
 
           <div className='mx-44 my-5'>
-            <button onClick={submitHandler} className='bg-black text-white border-white border-2 hover:bg-slate-400 rounded-lg p-2'>Sign Up</button>
+            <button onClick={submitHandler} className='bg-black text-white border-white border-2 hover:bg-slate-100 hover:text-black hover:border-black rounded-lg p-2'>Sign Up</button>
           </div>
 
       </form>

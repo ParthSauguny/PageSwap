@@ -3,7 +3,7 @@ const router = express.Router();
 const usermodel = require("../models/user");
 
 router.get("/signup" , (req,res) => {
-    res.render("signup");
+    res.sendStatus(200);
 });
 
 router.route("/signup").post(async(req,res) => {
@@ -26,7 +26,7 @@ router.route("/signup").post(async(req,res) => {
 });
 
 router.get("/login" , (req,res) => {
-    res.render("login");
+    res.sendStatus(200);
 });
 
 router.route("/login").post(async(req,res) => {
@@ -57,9 +57,9 @@ router.route("/login").post(async(req,res) => {
         return res.status(200).cookie("accesstoken" , accesstoken , options).cookie("refreshtoken" , refreshtoken , options);
     } 
     catch (error) {
-        res.redirect("/login");
+        res.redirect("/");
     }
-}); 
+});
 
 router.get("/logout", (req, res) => {
     res.clearCookie("accessToken").clearCookie("refreshToken").redirect("/");
