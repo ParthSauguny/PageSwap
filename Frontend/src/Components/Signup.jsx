@@ -2,6 +2,8 @@ import React from 'react'
 import axios from 'axios'
 import {Link} from "react-router-dom"
 import { useState } from 'react';
+import {toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 function Signup() {
   const [signupData , setsignupData] = useState({
@@ -26,6 +28,7 @@ function Signup() {
       email: signupData.email,
       password: signupData.password,}
     )
+    toast.success("signed up successfully!!");
   }
 
   return (

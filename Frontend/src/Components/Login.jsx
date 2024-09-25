@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import { Link } from "react-router-dom"
 import axios from "axios"
+import { toast } from 'react-toastify';
 
 function Login() {
   const [logindata,setLogindata] = useState({email:"" , password:""});
@@ -20,6 +21,7 @@ function Login() {
       email: logindata.email,
       password: logindata.password,
     })
+    toast.success("logged in successfully !!!!!");
   }
 
   return (
