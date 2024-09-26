@@ -9,6 +9,7 @@ import Home from './Components/Home';
 import AboutUs from './Components/AboutUs';
 import { ToastContainer } from 'react-toastify';
 import AddBook from './Components/Add-Book';
+import Card from './Components/Card';
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -18,6 +19,7 @@ const router = createBrowserRouter(
     <Route path='/user/signup' element={<Signup/>}/>
     <Route path='/about-us' element={<AboutUs/>}/>
     <Route path='/book/add-book' element={<AddBook/>}/>
+    <Route path='/ll' element={<Card/>}/>
   </Route>
   )
 )
