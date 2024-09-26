@@ -4,13 +4,13 @@ function AboutUs() {
   return (
     <div className='align-middle bg-slate-800 m-2 px-10 py-1 rounded-lg text-white'>
         <h1 className='text-center text-6xl my-3'>About Us</h1>
-        <p className=' text-lg'>Welcome to PageSwap, your go-to online community for exchanging e-books! At PageSwap, we believe in the power of sharing and the joy of discovering new books. 
+        <p className=' text-lg'>Welcome to PageSwap, your go-to online community for exchanging books! At PageSwap, we believe in the power of sharing and the joy of discovering new books. 
             Our mission is to create a vibrant and inclusive platform where book lovers can connect, share, and explore a world of literary treasures.
         </p>
         <h1 className=' text-center text-6xl my-3'>Who We Are</h1>
         <p className=' text-lg'>
             PageSwap is a dedicated team of avid readers and tech enthusiasts who are passionate about making reading more accessible and enjoyable for everyone. 
-            We understand that books can be expensive and sometimes hard to find, which is why we've created a space where you can exchange e-books with fellow readers from around the globe.
+            We understand that books can be expensive and sometimes hard to find, which is why we've created a space where you can exchange books with fellow readers from around the globe.
         </p>
         <h1 className=' text-center text-6xl my-3'>Why Choose Us</h1>
         <ul className=' text-lg'>
