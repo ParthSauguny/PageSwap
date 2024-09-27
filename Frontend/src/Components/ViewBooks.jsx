@@ -25,6 +25,7 @@ function ViewBooks() {
           genre={book.genre} 
           owner={book.owner.username}
           available={book.available} 
+          address = {book.address}
         />
       ))}
     </div>

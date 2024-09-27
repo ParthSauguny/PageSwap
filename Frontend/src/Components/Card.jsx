@@ -1,6 +1,6 @@
 import React from 'react';
 
-function Card({ title, author, genre, owner, available }) {
+function Card({ title, author, genre, owner, available, address }) {
   return (
     <div className="flex flex-col h-60 w-80 bg-white rounded-lg shadow-lg overflow-hidden mx-auto my-6 transform transition-transform hover:scale-105 duration-300">
       <div className="h-2/3 flex">
@@ -21,6 +21,9 @@ function Card({ title, author, genre, owner, available }) {
         </div>
         <div className={`text-sm font-semibold ${available ? 'text-green-600' : 'text-red-600'}`}>
           {available ? 'Available' : 'Not Available'}
+        </div>
+        <div className={`text-sm font-semibold ${available ? 'text-green-600' : 'text-red-600'}`}>
+          {address}
         </div>
       </div>
     </div>
