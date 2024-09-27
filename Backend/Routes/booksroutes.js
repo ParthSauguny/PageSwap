@@ -26,8 +26,13 @@ router.post("/add-book" , async(req,res) => {
     res.send("added");
 });
 
-router.get("/add-book" , (req,res) => {
-    res.send({});
+router.get("/show-books" , async(req,res) => {
+    try {
+        const books = await Book.find().populate('owner', 'username');
+        res.json(books);
+    } catch (error) {
+        res.status(500);
+    }
 });
 
 module.exports = router;

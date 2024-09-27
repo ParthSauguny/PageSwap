@@ -6,7 +6,7 @@ export default defineConfig({
   server:{
     proxy:{
       '/user':"http://localhost:5000",
-      '/api':"http://localhost:5000",
+      '/book':"http://localhost:5000",
     },
   },
   plugins: [react()],

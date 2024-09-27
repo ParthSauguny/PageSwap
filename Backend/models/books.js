@@ -6,8 +6,7 @@ const bookSchema = new mongo.Schema({
         required:true,
     },
     owner: {
-        type: String,
-        required: true,
+        type: mongo.Schema.Types.ObjectId, ref: 'User'
     },
     borrower: {
         type: String,
