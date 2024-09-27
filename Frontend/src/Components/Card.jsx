@@ -22,7 +22,7 @@ function Card({ title, author, genre, owner, available, address }) {
         <div className={`text-sm font-semibold ${available ? 'text-green-600' : 'text-red-600'}`}>
           {available ? 'Available' : 'Not Available'}
         </div>
-        <div className={`text-sm font-semibold ${available ? 'text-green-600' : 'text-red-600'}`}>
+        <div className={`text-sm font-semibold text-sky-600`}>
           {address}
         </div>
       </div>

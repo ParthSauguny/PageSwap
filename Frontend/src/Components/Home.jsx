@@ -18,6 +18,10 @@ function Home() {
               Add a book 
               <Link to="/book/add-book"> <button className=' bg-black text-white border-white border-2 rounded-3xl p-2 my-4 mx-3 hover:bg-slate-700'> Click Here </button> </Link>
           </div>
+          <div className='text-2xl'>
+              View books
+              <Link to="/books"> <button className=' bg-black text-white border-white border-2 rounded-3xl p-2 my-4 mx-3 hover:bg-slate-700'> Click Here </button> </Link>
+          </div>
         </div>
     </>
   )
