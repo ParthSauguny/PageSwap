@@ -4,7 +4,7 @@ import Logo from '../Assets/Logo.jpg'
 
 function Navbar() {
   return (
-    <div className=' bg-slate-300 flex justify-between h-16 text-3xl mx-4 my-4 rounded-3xl'>
+    <div className=' bg-slate-300 flex justify-between align-middle h-16 text-3xl mx-4 mt-4 mb-1 rounded-3xl'>
       <div className='flex h-auto px-5'>
         <img src={Logo}/>
         <div className='px-3 text-5xl text-sky-900'>PageSwap</div>  
