@@ -1,33 +1,41 @@
 const express = require("express");
 const router = express.Router();
 const usermodel = require("../models/user");
-const User = require("../models/user");
 
-router.route("/signup").post(async(req,res) => {
-    const {username , email , password} = req.body;
-    
-    if (!username || !email || !password ) {
-        return res.status(400);
-    }
+router.route("/signup").post(async (req, res) => {
+    const { username, email, password } = req.body;
 
-    const existingUser = await usermodel.findOne({ $or: [{ username }, { email }] });
-    
-    if (existingUser) {
-      // If the username or email already exists, return a 400 response
-      return res.status(400);
+    // Validate that all required fields are provided
+    if (!username || !email || !password) {
+        return res.status(400).json({ error: "Please fill all the required fields." });
     }
 
     try {
-        await usermodel.create({
+        // Check if the user already exists by username or email
+        const existingUser = await usermodel.findOne({ $or: [{ username }, { email }] });
+
+        if (existingUser) {
+            // If the username or email already exists, return a 401 response with a message
+            return res.status(401).json({ error: "Username or email already exists." });
+        }
+
+        // Create a new user
+        const newUser = await usermodel.create({
             username,
             email,
             password
-        })
-        res.send({status: 200});
+        });
+
+        // Send success response
+        return res.status(200).json({ message: "User created successfully", user: newUser });
     } catch (error) {
-        console.log("error" , error);
+        // Catch and log any errors that occur
+        console.error("Error during signup:", error);
+        // Send a 500 internal server error response with error details
+        return res.status(500).json({ error: "An error occurred during signup. Please try again later." });
     }
 });
+
 
 router.route("/login").post(async(req,res) => {
     const {email , password} = req.body;
