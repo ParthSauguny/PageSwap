@@ -19,10 +19,10 @@ function Login() {
   async function submitHandler(event){
     event.preventDefault();
     try {
-      const res = await axios.post("/user/login" , {
-        email: logindata.email,
-        password: logindata.password,
-      })
+      const res = await axios.post("/user/login" , logindata, {
+        withCredentials: true,  // Ensure cookies are sent with the request
+      });
+
       if(res.status === 200){
         navigate('/');
         toast.success("logged in successfully !!!!!");

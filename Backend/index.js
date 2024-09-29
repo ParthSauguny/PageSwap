@@ -1,5 +1,6 @@
 const express = require("express");
 const mongo = require("mongoose");
+const cookieParser = require('cookie-parser');
 const bookRouter = require("./Routes/booksroutes");
 const userRouter = require("./Routes/user.js");
 const cors = require("cors");
@@ -18,12 +19,8 @@ mongo.connect(db_url)
 .then(() => console.log("connected to database"))
 .catch(error=>console.log(error));
 
-// const corsOptions = {
-//     origin: "http://localhost:5173",
-//     methods: "GET , POST , PUT",
-//     Credentials: true,
-// }
 app.use(express.json());
+app.use(cookieParser());
 app.use(express.urlencoded({extended: true}));
 app.use("/user" , userRouter);
 app.use("/book" , bookRouter);
