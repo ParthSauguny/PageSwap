@@ -36,7 +36,7 @@ function Signup() {
         toast.success("signed up successfully!!");
       }
     } catch (error) {
-      if (error.response && error.response.status === 400) {
+      if (error.response && error.response.status === 401) {
         toast.warning("Username or email exists");
       } else {
         toast.error("Something went wrong, please try again!");

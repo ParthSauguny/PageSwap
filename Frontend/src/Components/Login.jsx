@@ -1,10 +1,11 @@
 import React, { useState } from 'react'
-import { Link } from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom"
 import axios from "axios"
 import { toast } from 'react-toastify';
 
 function Login() {
   const [logindata,setLogindata] = useState({email:"" , password:""});
+  const navigate = useNavigate();
 
   function changehandler(event){
     setLogindata((prevdata)=>{
@@ -15,13 +16,27 @@ function Login() {
     })
   }
 
-  function submitHandler(event){
+  async function submitHandler(event){
     event.preventDefault();
-    axios.post("/user/login" , {
-      email: logindata.email,
-      password: logindata.password,
-    })
-    toast.success("logged in successfully !!!!!");
+    try {
+      const res = await axios.post("/user/login" , {
+        email: logindata.email,
+        password: logindata.password,
+      })
+      if(res.status === 200){
+        navigate('/');
+        toast.success("logged in successfully !!!!!");
+      }
+    } catch (error) {
+      if (error.response && error.response.status === 400) {
+        toast.warning("Please fill all details");
+      }
+      else if(error.response && error.response.status === 401){
+        toast.warning("Invalid Credentials");
+      }else {
+        toast.error("Something went wrong, please try again!");
+      }
+    }
   }
 
   return (

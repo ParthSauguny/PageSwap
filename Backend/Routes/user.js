@@ -5,7 +5,7 @@ const usermodel = require("../models/user");
 router.route("/signup").post(async (req, res) => {
     const { username, email, password } = req.body;
 
-    // Validate that all required fields are provided
+    // all required fields are provided
     if (!username || !email || !password) {
         return res.status(400).json({ error: "Please fill all the required fields." });
     }
@@ -39,24 +39,24 @@ router.route("/signup").post(async (req, res) => {
 
 router.route("/login").post(async(req,res) => {
     const {email , password} = req.body;
-    if(!(email || password)) {
-        throw new Error("a field is missing");
+    if(!email || !password) {
+        return res.status(400).json({ error: "Please fill all the required fields." });
     }
     try {
-        const user = usermodel.findOne({email});
+        const user = await usermodel.findOne({email});
         if(!user){
-            throw new Error("user not found");
+            return res.status(401).json({ error:"Invalid Credentials." });
         }
 
         const ispasswordvalid = await user.isCorrectPassword(password);
         if(!ispasswordvalid)
-            throw new Error("invalid password");
+            return res.status(401).json({ error: "Invalid Credentials." });
 
         const accesstoken = user.generateAccessToken();
         const refreshtoken = user.generateRefreshToken();
         user.refreshtoken = refreshtoken;
 
-        user.save({usermodel,validate:false});
+        await user.save({ validateBeforeSave: false });
 
         const options = {
             httpOnly:true,
@@ -65,12 +65,14 @@ router.route("/login").post(async(req,res) => {
         return res.status(200).cookie("accesstoken" , accesstoken , options).cookie("refreshtoken" , refreshtoken , options);
     } 
     catch (error) {
-        res.redirect("/");
+        console.log(error);
+        return res.status(500).json({ error: "An error occurred during login. Please try again later." });
     }
 });
 
 router.get("/logout", (req, res) => {
-    res.clearCookie("accessToken").clearCookie("refreshToken").redirect("/");
+    res.clearCookie("accessToken").clearCookie("refreshToken");
+    res.status(200).json({message: "logged out!"});
   });
 
 module.exports = router;
