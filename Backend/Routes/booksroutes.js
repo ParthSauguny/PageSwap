@@ -6,7 +6,7 @@ router.post("/add-book" , async(req,res) => {
     try {
         await Book.create({
             title: req.body.title,
-            owner: req.body.owner,
+            owner: req.user._id,
             borrower: req.body.borrower || null, // Optional, default to null if not provided
             exchangeRequest: {
               requestedBy: req.body.exchangeRequest?.requestedBy || null, // Optional, default to null

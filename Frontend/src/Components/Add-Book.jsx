@@ -21,11 +21,11 @@ const AddBook = () => {
       genre,
       address,
       price,
-      available: true, // or false based on your requirement
+      available: true, //default is true always
     };
 
     try {
-      const response = await axios.post('http://localhost:8000/book/add', bookData, {
+      await axios.post('http://localhost:5000/book/add-book', bookData, {
         withCredentials: true,  // If you're using cookies for authentication
       });
       setSuccess('Book added successfully!');
