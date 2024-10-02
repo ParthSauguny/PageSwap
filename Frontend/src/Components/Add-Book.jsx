@@ -1,5 +1,9 @@
 import React, { useState } from 'react';
 import axios from 'axios';
+import { Cloudinary } from '@cloudinary/url-gen';
+import { auto } from '@cloudinary/url-gen/actions/resize';
+import { autoGravity } from '@cloudinary/url-gen/qualifiers/gravity';
+import { AdvancedImage } from '@cloudinary/react';
 
 const AddBook = () => {
   const [title, setTitle] = useState('');
@@ -9,6 +13,9 @@ const AddBook = () => {
   const [price, setPrice] = useState(0);
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
+
+  //const cld = new Cloudinary({ cloud: { cloudName: 'dxikzsfgr' } });
+  //const img = 
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -97,6 +104,16 @@ const AddBook = () => {
             id="price"
             value={price}
             onChange={(e) => setPrice(e.target.value)}
+            required
+            className="mt-1 block w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+          />
+        </div>
+        <div className="mb-4">
+          <label htmlFor="image" className="block text-sm font-medium text-gray-700">Cover page:</label>
+          <input
+            type="file"
+            id="price"
+            value={image}
             required
             className="mt-1 block w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
           />

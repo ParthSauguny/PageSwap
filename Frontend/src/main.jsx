@@ -10,6 +10,7 @@ import AboutUs from './Components/AboutUs';
 import { ToastContainer } from 'react-toastify';
 import AddBook from './Components/Add-Book';
 import ViewBooks from './Components/ViewBooks';
+import Image from './Components/Image';
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -20,6 +21,7 @@ const router = createBrowserRouter(
     <Route path='/about-us' element={<AboutUs/>}/>
     <Route path='/book/add-book' element={<AddBook/>}/>
     <Route path='/books' element={<ViewBooks/>}/>
+    <Route path='/image' element={<Image/>}/>
   </Route>
   )
 )
