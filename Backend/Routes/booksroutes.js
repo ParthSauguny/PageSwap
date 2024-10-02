@@ -1,8 +1,10 @@
 const express = require("express");
 const router = express.Router();
 const Book = require("../models/books");
+const multer = require('multer');
+const upload = multer({dest : 'uploads/'})
 
-router.post("/add-book" , async(req,res) => {
+router.post("/add-book" , upload.single('image') , async(req,res) => {
     try {
         await Book.create({
             title: req.body.title,

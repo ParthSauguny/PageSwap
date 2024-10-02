@@ -1,9 +1,5 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import { Cloudinary } from '@cloudinary/url-gen';
-import { auto } from '@cloudinary/url-gen/actions/resize';
-import { autoGravity } from '@cloudinary/url-gen/qualifiers/gravity';
-import { AdvancedImage } from '@cloudinary/react';
 
 const AddBook = () => {
   const [title, setTitle] = useState('');
@@ -11,29 +7,28 @@ const AddBook = () => {
   const [genre, setGenre] = useState('');
   const [address, setAddress] = useState('');
   const [price, setPrice] = useState(0);
+  const [file , setFile] = useState(null);
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
-
-  //const cld = new Cloudinary({ cloud: { cloudName: 'dxikzsfgr' } });
-  //const img = 
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError('');
     setSuccess('');
 
-    const bookData = {
-      title,
-      author,
-      genre,
-      address,
-      price,
-      available: true, //default is true always
-    };
+    const formData = new FormData();
+    formData.append('title', title);
+    formData.append('author', author);
+    formData.append('genre', genre);
+    formData.append('address', address);
+    formData.append('price', price);
+    formData.append('available', true); // default true as book is available
+    if (file) formData.append('file', file); // Appending the cover image
 
     try {
-      await axios.post('http://localhost:5000/book/add-book', bookData, {
-        withCredentials: true,  // If you're using cookies for authentication
+      const res = await axios.post('http://localhost:5000/book/add-book', formData, {
+        withCredentials: true,  // since using cookies for authentication
+        headers: {'Content-Type': 'multipart/form-data'}
       });
       setSuccess('Book added successfully!');
       // Reset form fields
@@ -41,6 +36,8 @@ const AddBook = () => {
       setAuthor('');
       setGenre('');
       setAddress('');
+      setFile(null);
+      document.getElementById('file').value = '';
       setPrice(0);
     } catch (err) {
       setError('Failed to add book. Please try again.');
@@ -98,7 +95,7 @@ const AddBook = () => {
           />
         </div>
         <div className="mb-4">
-          <label htmlFor="price" className="block text-sm font-medium text-gray-700">Price:</label>
+          <label htmlFor="price" className="block text-sm font-medium text-gray-700">Price: if wanna lend or exchange with money                </label>
           <input
             type="number"
             id="price"
@@ -112,8 +109,9 @@ const AddBook = () => {
           <label htmlFor="image" className="block text-sm font-medium text-gray-700">Cover page:</label>
           <input
             type="file"
-            id="price"
-            value={image}
+            id="file"
+            value={file}
+            onChange={e => setFile(e.target.files[0])}
             required
             className="mt-1 block w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
           />
