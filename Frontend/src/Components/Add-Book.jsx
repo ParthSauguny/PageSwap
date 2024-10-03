@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState , useRef } from 'react';
 import axios from 'axios';
 
 const AddBook = () => {
@@ -10,6 +10,8 @@ const AddBook = () => {
   const [file , setFile] = useState(null);
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
+
+  const fileInputRef = useRef(null);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -25,20 +27,28 @@ const AddBook = () => {
     formData.append('available', true); // default true as book is available
     if (file) formData.append('file', file); // Appending the cover image
 
+    if (!title || !author || !genre || !address || !price) {
+      setError('All fields are required');
+      return;
+    }    
+
     try {
       const res = await axios.post('http://localhost:5000/book/add-book', formData, {
         withCredentials: true,  // since using cookies for authentication
         headers: {'Content-Type': 'multipart/form-data'}
       });
       setSuccess('Book added successfully!');
+
       // Reset form fields
       setTitle('');
       setAuthor('');
       setGenre('');
       setAddress('');
       setFile(null);
-      document.getElementById('file').value = '';
       setPrice(0);
+      if (fileInputRef.current) {
+        fileInputRef.current.value = ''; // Reset file input using ref
+      }
     } catch (err) {
       setError('Failed to add book. Please try again.');
       console.error(err);
@@ -100,7 +110,7 @@ const AddBook = () => {
             type="number"
             id="price"
             value={price}
-            onChange={(e) => setPrice(e.target.value)}
+            onChange={(e) => setPrice(Math.max(0, e.target.value))}
             required
             className="mt-1 block w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
           />
@@ -110,7 +120,7 @@ const AddBook = () => {
           <input
             type="file"
             id="file"
-            value={file}
+            ref={fileInputRef} 
             onChange={e => setFile(e.target.files[0])}
             required
             className="mt-1 block w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
