@@ -13,47 +13,62 @@ const AddBook = () => {
 
   const fileInputRef = useRef(null);
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    setError('');
-    setSuccess('');
+  const [loading, setLoading] = useState(false);
 
-    const formData = new FormData();
-    formData.append('title', title);
-    formData.append('author', author);
-    formData.append('genre', genre);
-    formData.append('address', address);
-    formData.append('price', price);
-    formData.append('available', true); // default true as book is available
-    if (file) formData.append('file', file); // Appending the cover image
+const handleSubmit = async (e) => {
+  e.preventDefault();
+  setError('');
+  setSuccess('');
+  setLoading(true);  // Enable loading state
 
-    if (!title || !author || !genre || !address || !price) {
-      setError('All fields are required');
-      return;
-    }    
+  if (!title || !author || !genre || !address || (!file && !price)) {
+    setError('All fields are required');
+    setLoading(false);
+    return;
+  }
+  console.log("stage 1 OK !!!!!");
 
-    try {
-      const res = await axios.post('http://localhost:5000/book/add-book', formData, {
-        withCredentials: true,  // since using cookies for authentication
-        headers: {'Content-Type': 'multipart/form-data'}
-      });
+  const formData = new FormData();
+  formData.append('title', title);
+  formData.append('author', author);
+  formData.append('genre', genre);
+  formData.append('address', address);
+  formData.append('price', price);
+  formData.append('available', true);
+  if (file) formData.append('file', file);
+
+  console.log("stage 2 crossed !!!!!");
+
+  try {
+    console.log(" entering try catch ");
+    
+    const res = await axios.post('http://localhost:5000/book/add-book', formData, {
+      withCredentials: true,
+      headers: { 'Content-Type': 'multipart/form-data' }
+    });
+    console.log("data sent");
+
+    if(res.status === 200){
       setSuccess('Book added successfully!');
-
-      // Reset form fields
-      setTitle('');
-      setAuthor('');
-      setGenre('');
-      setAddress('');
-      setFile(null);
-      setPrice(0);
-      if (fileInputRef.current) {
-        fileInputRef.current.value = ''; // Reset file input using ref
-      }
-    } catch (err) {
-      setError('Failed to add book. Please try again.');
-      console.error(err);
     }
-  };
+
+    console.log("added book");
+    
+    setTitle(''); setAuthor(''); setGenre(''); setAddress(''); setPrice(0); setFile(null);
+    if (fileInputRef.current) fileInputRef.current.value = '';
+
+    console.log("all done");
+    
+  } catch (err) {
+    setError('Failed to add book. Please try again.');
+    console.log("error aagya pencho oye");
+    
+    console.error(err);
+  } finally {
+    setLoading(false);  // Disable loading state
+  }
+};
+
 
   return (
     <>
@@ -127,11 +142,13 @@ const AddBook = () => {
           />
         </div>
         <button 
-          type="submit" 
-          className="w-full bg-blue-500 text-white font-semibold py-2 px-4 rounded-md hover:bg-blue-600 transition duration-200"
-        >
-          Add Book
-        </button>
+  type="submit" 
+  className={`w-full bg-blue-500 text-white font-semibold py-2 px-4 rounded-md transition duration-200 ${loading ? 'opacity-50 cursor-not-allowed' : 'hover:bg-blue-600'}`}
+  disabled={loading}  // Disable button during loading
+>
+  {loading ? 'Adding...' : 'Add Book'}
+</button>
+
       </form>
       {error && <p className="mt-2 text-red-600">{error}</p>}
       {success && <p className="mt-2 text-green-600">{success}</p>}

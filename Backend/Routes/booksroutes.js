@@ -3,13 +3,18 @@ const router = express.Router();
 const Book = require("../models/books");
 const multer = require("multer");
 const upload = multer({dest: './uploads/cover-image'});
+const auth = require('../middlewares/auth')
 
-router.post("/add-book" , upload.single('file') , async(req,res) => {
+router.post("/add-book" , auth ,  upload.single('file') , async(req,res) => {
     console.log("starting process");
+    
+    console.log(req.user._id);
+    console.log("  ");
+    
     const body = req.body;
     console.log(body);
     try {
-        const res = await Book.create({
+        await Book.create({
             title: body.title,
             owner: req.user._id,
             borrower: body.borrower || null, // Optional, default to null if not provided
@@ -25,9 +30,9 @@ router.post("/add-book" , upload.single('file') , async(req,res) => {
             address: body.address,
             price: body.price // Optional, default to 0 if not provided
         });
-        res.status(200).json({message: "added book"});
+        return res.status(200).json({message: "added book"});
     } catch (error) {
-        res.status(400).json({ message: error.message });
+        return res.status(400).json({ message: error.message });
     }
 });
 
@@ -36,7 +41,7 @@ router.get("/show-books" , async(req,res) => {
         const books = await Book.find().populate('owner', 'username');
         res.json(books);
     } catch (error) {
-        res.status(500);
+        res.status(500).json({message: "cannot fetch books"});
     }
 });
 
