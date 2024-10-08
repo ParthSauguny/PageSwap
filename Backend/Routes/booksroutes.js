@@ -3,16 +3,13 @@ const router = express.Router();
 const Book = require("../models/books");
 const multer = require("multer");
 const upload = multer({dest: './uploads/cover-image'});
-const auth = require('../middlewares/auth')
+const auth = require('../middlewares/auth');
+const uploadCloudinary = require('../utils/cloudinary');
 
 router.post("/add-book" , auth ,  upload.single('file') , async(req,res) => {
-    console.log("starting process");
-    
-    console.log(req.user._id);
-    console.log("  ");
-    
     const body = req.body;
-    console.log(body);
+    console.log(req.file);
+    
     try {
         await Book.create({
             title: body.title,
@@ -30,6 +27,7 @@ router.post("/add-book" , auth ,  upload.single('file') , async(req,res) => {
             address: body.address,
             price: body.price // Optional, default to 0 if not provided
         });
+        uploadCloudinary(req.file.path);
         return res.status(200).json({message: "added book"});
     } catch (error) {
         return res.status(400).json({ message: error.message });
