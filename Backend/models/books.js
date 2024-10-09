@@ -9,6 +9,10 @@ const bookSchema = new mongo.Schema({
         type: mongo.Schema.Types.ObjectId, ref: 'User',
         required: true,
     },
+    image_url:{
+        type: String,
+        required: true
+    },
     borrower: {
         type: String,
         default: null

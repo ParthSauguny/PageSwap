@@ -1,5 +1,5 @@
 const v2 = require('cloudinary');
-const fs = require('fs');
+const {unlinkSync} = require('fs');
 require('dotenv').config();
 
 v2.config({
@@ -15,13 +15,14 @@ async function uploadCloudinary(localfilepath){
             resource_type: "auto"
         })
         //file uploaded yayyyy
-        console.log("uploaded yayyyy");
+        unlinkSync(localfilepath);
+        console.log("deleted file after upload");
+        
         return res;
     } catch (error) {
         console.error("Upload failed, deleting local file.", error);
-        fs.unlinkSync(localfilepath); //since upload got failed, we delete the temp img file from server
         return null;
     }
-}
+};
 
 module.exports = uploadCloudinary;

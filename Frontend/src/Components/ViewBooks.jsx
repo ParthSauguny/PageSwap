@@ -22,6 +22,7 @@ function ViewBooks() {
           key={book._id} 
           title={book.title} 
           author={book.author} 
+          url={book.image_url}
           genre={book.genre} 
           owner={book.owner.username}
           available={book.available} 

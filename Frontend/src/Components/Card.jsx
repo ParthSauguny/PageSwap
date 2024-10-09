@@ -1,17 +1,17 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 
-function Card({ title, author, genre, owner, available, address }) {
+function Card({ title, author, genre, owner, available, address, url }) {
   return (
     <div className="flex flex-col h-60 w-80 bg-white rounded-lg shadow-lg overflow-hidden mx-auto my-6 transform transition-transform hover:scale-105 duration-300">
       <div className="h-2/3 flex">
         <img 
-          src="https://media.newyorker.com/photos/59ee325f1685003c9c28c4ad/master/w_1920,c_limit/Heller-Kirkus-Reviews.jpg" 
+          src={url} 
           alt={title}
           className="w-1/3 object-cover"
         />
         <div className="w-2/3 p-4 flex flex-col justify-center">
-          <link to="/book/seebook"> <h1 className="text-xl font-bold text-gray-800">{title}</h1> </link>
+          <Link to="/book/seebook"> <h1 className="text-xl font-bold text-gray-800">{title}</h1> </Link>
           <h2 className="text-sm text-gray-600">{author}</h2>
           <h3 className="text-sm text-gray-500 mt-2">Genre: {genre}</h3>
         </div>
