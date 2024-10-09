@@ -1,4 +1,5 @@
 import React, { useState , useRef } from 'react';
+import {useNavigate} from 'react-router-dom'
 import axios from 'axios';
 
 const AddBook = () => {
@@ -10,6 +11,8 @@ const AddBook = () => {
   const [file , setFile] = useState(null);
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
+
+  const navigate = useNavigate();
 
   const fileInputRef = useRef(null);
 
@@ -58,8 +61,10 @@ const handleSubmit = async (e) => {
     if (fileInputRef.current) fileInputRef.current.value = '';
 
     console.log("all done");
-    
   } catch (err) {
+    if(err.response && err.response.status === 401){
+      navigate('/user/login');
+    }
     setError('Failed to add book. Please try again.');
     console.log("error aagya pencho oye");
     

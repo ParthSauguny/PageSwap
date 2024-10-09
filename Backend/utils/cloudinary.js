@@ -8,7 +8,7 @@ v2.config({
     api_secret: process.env.COUDINARY_API_SECRET,
 });
 
-const uploadCloudinary = async(localfilepath) => {
+async function uploadCloudinary(localfilepath){
     if(!localfilepath) return null;
     try {
         const res = await v2.uploader.upload(localfilepath , {
@@ -18,9 +18,10 @@ const uploadCloudinary = async(localfilepath) => {
         console.log("uploaded yayyyy");
         return res;
     } catch (error) {
+        console.error("Upload failed, deleting local file.", error);
         fs.unlinkSync(localfilepath); //since upload got failed, we delete the temp img file from server
         return null;
     }
 }
 
-module.export = uploadCloudinary;
+module.exports = uploadCloudinary;

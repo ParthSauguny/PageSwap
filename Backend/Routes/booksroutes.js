@@ -27,7 +27,7 @@ router.post("/add-book" , auth ,  upload.single('file') , async(req,res) => {
             address: body.address,
             price: body.price // Optional, default to 0 if not provided
         });
-        uploadCloudinary(req.file.path);
+        await uploadCloudinary(req.file.path);
         return res.status(200).json({message: "added book"});
     } catch (error) {
         return res.status(400).json({ message: error.message });
