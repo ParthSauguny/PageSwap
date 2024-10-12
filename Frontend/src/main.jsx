@@ -1,7 +1,7 @@
-import React from 'react'
-import ReactDOM from 'react-dom/client'
-import { createBrowserRouter, createRoutesFromElements, Route, RouterProvider } from "react-router-dom"
-import "./index.css"
+import React from 'react';
+import ReactDOM from 'react-dom/client';
+import { createBrowserRouter, createRoutesFromElements, Route, RouterProvider } from "react-router-dom";
+import "./index.css";
 import Layout from './Layout';
 import Login from './Components/Login';
 import Signup from './Components/Signup';
@@ -23,7 +23,7 @@ const router = createBrowserRouter(
     <Route path='/book/add-book' element={<AddBook/>}/>
     <Route path='/books' element={<ViewBooks/>}/>
     <Route path='/image' element={<Image/>}/>
-    <Route path='/book/seebook' element={<OpenBook/>}/>
+    <Route path='/book/:book_title' element={<OpenBook/>}/>
   </Route>
   )
 )

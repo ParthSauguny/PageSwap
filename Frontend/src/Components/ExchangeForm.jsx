@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
+import axios from 'axios';
+import { toast } from 'react-toastify';
 
 const ExchangeForm = () => {
   const [formData, setFormData] = useState({
     name: '',
-    email: '',
     address: '',
     exchangeBook: '',
     comments: '',
@@ -15,8 +16,18 @@ const ExchangeForm = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log('Exchange Form Data:', formData);
-    // You can now send the data to your backend or handle it accordingly
+    
+    try {
+      const res = axios.post("/book/borrow-req" , formData , {
+        withCredentials: true,
+      });
+      if(res.response.status === 200){
+        toast.success("request added. Please wait for confirmation by the owner.")
+      }
+    } catch (error) {
+      console.log(error);
+      toast.dark("Couldn't add request. Please try later");
+    }
   };
 
   return (
@@ -33,16 +44,6 @@ const ExchangeForm = () => {
         required
       />
 
-      <label className="block mb-2">Email:</label>
-      <input 
-        type="email" 
-        name="email" 
-        value={formData.email} 
-        onChange={handleChange}
-        className="w-full p-2 mb-4 border rounded"
-        required
-      />
-
       <label className="block mb-2">Address:</label>
       <input 
         type="text" 
@@ -53,7 +54,7 @@ const ExchangeForm = () => {
         required
       />
 
-      <label className="block mb-2">Book You Want to Exchange:</label>
+      <label className="block mb-2">Book You Want to Exchange with :</label>
       <input 
         type="text" 
         name="exchangeBook" 

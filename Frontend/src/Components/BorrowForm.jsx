@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
+import axios from 'axios';
+
 const BorrowForm = () => {
   const [formData, setFormData] = useState({
     name: '',
-    email: '',
     address: '',
     comments: '',
   });
@@ -13,8 +14,18 @@ const BorrowForm = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log('Borrow Form Data:', formData);
-    // You can now send the data to your backend or handle it accordingly
+
+    try {
+      const res = axios.post("/book/exchange-req" , formData , {
+        withCredentials: true,
+      });
+      if(res.response.status === 200){
+        toast.success("request added. Please wait for confirmation by the owner.")
+      }
+    } catch (error) {
+      console.log(error);
+      toast.dark("Couldn't add request. Please try later");
+    }
   };
 
   return (
@@ -31,17 +42,7 @@ const BorrowForm = () => {
         required
       />
 
-      <label className="block mb-2">Email:</label>
-      <input 
-        type="email" 
-        name="email" 
-        value={formData.email} 
-        onChange={handleChange}
-        className="w-full p-2 mb-4 border rounded"
-        required
-      />
-
-      <label className="block mb-2">Address:</label>
+      <label className="block mb-2">Your pickup Address:</label>
       <input 
         type="text" 
         name="address" 
@@ -61,7 +62,7 @@ const BorrowForm = () => {
 
       <button 
         type="submit"
-        className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
+        className="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600"
       >
         Submit
       </button>

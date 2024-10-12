@@ -12,8 +12,8 @@ function ViewBooks() {
     })
     .catch(error => {
       console.error('Error fetching books:', error);
-    }) , []}
-  )
+    })
+  } , []);
 
   return (
     <div className='my-5'>

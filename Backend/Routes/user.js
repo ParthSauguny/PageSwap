@@ -36,40 +36,33 @@ router.route("/signup").post(async (req, res) => {
     }
 });
 
-
 router.route("/login").post(async(req,res) => {
     const {email , password} = req.body;
     if(!email || !password) {
         return res.status(400).json({ error: "Please fill all the required fields." });
     }
-    console.log("fields are present!! all");
     
     try {
         const user = await usermodel.findOne({email});
         if(!user){
             return res.status(401).json({ error:"Invalid Credentials." });
         }
-        console.log("user exists !!");
         
         const ispasswordvalid = await user.isCorrectPassword(password);
         if(!ispasswordvalid){
             return res.status(401).json({ error: "Invalid Credentials." });
         }
-        console.log("password validated");
         
         const accesstoken = await user.generateAccessToken();
         const refreshtoken = await user.generateRefreshToken();
         user.refreshtoken = refreshtoken;
 
         await user.save({ validateBeforeSave: false });
-        console.log("user saved");
 
         const options = {
             httpOnly:true,
             secure:true
         }
-        console.log("ye bhi ho gya");
-        console.log(req.body);
         
         return res.status(200).cookie("accesstoken" , accesstoken , options).cookie("refreshtoken" , refreshtoken , options).json({ message: "Login successful" });
     } 

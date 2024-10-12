@@ -19,12 +19,11 @@ const bookSchema = new mongo.Schema({
     },
     exchangeRequest: {
         requestedBy: { type: String, default: null },
-        requestedTo: { type: String, default: null },
         exchangeBookId: { type: String, default: null },
         status: {
           type: String,
           enum: ["pending", "accepted", "rejected"],
-          default: null
+          default: "pending"
         }
     },
     author:{

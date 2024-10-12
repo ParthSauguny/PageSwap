@@ -8,7 +8,6 @@ const uploadCloudinary = require('../utils/cloudinary');
 
 router.post("/add-book" , auth ,  upload.single('file') , async(req,res) => {
     const body = req.body;
-    console.log(req.file);
     
     try {
         const upload = await uploadCloudinary(req.file.path);
@@ -35,12 +34,22 @@ router.post("/add-book" , auth ,  upload.single('file') , async(req,res) => {
     }
 });
 
-router.get("/show-books" , async(req,res) => {
+router.get("/show-books" , auth , async(req,res) => {
     try {
         const books = await Book.find().populate('owner', 'username');
         res.json(books);
     } catch (error) {
         res.status(500).json({message: "cannot fetch books"});
+    }
+});
+
+router.post("/exchange-book" , auth , async(req,res) => {
+    const info = req.body;
+
+    try {
+        const book = await Book.findOne({})
+    } catch (error) {
+        
     }
 });
 
