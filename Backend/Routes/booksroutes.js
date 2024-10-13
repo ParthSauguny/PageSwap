@@ -44,12 +44,13 @@ router.get("/show-books" , auth , async(req,res) => {
 });
 
 router.post("/exchange-book" , auth , async(req,res) => {
-    const info = req.body;
-
+    const {title , address , exchangeBook} = req.body;
     try {
-        const book = await Book.findOne({})
+        const book = await Book.findOne({title});
+        book.exchangeRequest.exchangeBookId = title;
+        book.exchangeRequest.requestedBy = req.user._id;
     } catch (error) {
-        
+        console.log("error occurred" , error);
     }
 });
 

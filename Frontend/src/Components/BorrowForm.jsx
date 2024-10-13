@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 
-const BorrowForm = () => {
+const BorrowForm = ({book}) => {
   const [formData, setFormData] = useState({
     name: '',
+    title: book,
     address: '',
     comments: '',
   });

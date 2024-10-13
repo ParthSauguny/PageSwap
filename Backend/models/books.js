@@ -18,7 +18,7 @@ const bookSchema = new mongo.Schema({
         default: null
     },
     exchangeRequest: {
-        requestedBy: { type: String, default: null },
+        requestedBy: { type: mongoose.Schema.Types.ObjectId, ref: 'User', default: null },
         exchangeBookId: { type: String, default: null },
         status: {
           type: String,

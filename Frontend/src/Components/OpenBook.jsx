@@ -1,9 +1,12 @@
 import React, { useState } from 'react'
 import BorrowForm from './BorrowForm';
 import ExchangeForm from './ExchangeForm';
+import { useLocation } from 'react-router-dom';
 
 function OpenBook() {
   const [willBorrow , setWillborrow] = useState(true);
+  const loc = useLocation();
+  const title = loc.state;
 
   const handleBorrowClick = () => {
     setWillborrow(true);
@@ -15,6 +18,7 @@ function OpenBook() {
 
   return (
     <div>
+      <h1 className='flex justify-center text-4xl text-orange-900'> {title} </h1>
       
       <div className='flex flex-row p-4 justify-around mx-auto'>
         <button onClick={handleBorrowClick}
@@ -32,7 +36,7 @@ function OpenBook() {
 
       <div>
         {
-          willBorrow ? <BorrowForm/> : <ExchangeForm/>
+          willBorrow ? <BorrowForm book: title /> : <ExchangeForm book: title />
         }
       </div>
 
