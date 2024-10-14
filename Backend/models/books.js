@@ -14,8 +14,12 @@ const bookSchema = new mongo.Schema({
         required: true
     },
     borrower: {
-        type: String,
-        default: null
+        borrower_id: { type: mongoose.Schema.Types.ObjectId, ref: 'User', default: null },
+        reqAddress: {
+            type: String,
+            required: true,
+            default: null
+        }
     },
     exchangeRequest: {
         requestedBy: { type: mongoose.Schema.Types.ObjectId, ref: 'User', default: null },
@@ -24,6 +28,11 @@ const bookSchema = new mongo.Schema({
           type: String,
           enum: ["pending", "accepted", "rejected"],
           default: "pending"
+        },
+        reqAddress:{
+            type: String,
+            required: true,
+            default: null
         }
     },
     author:{

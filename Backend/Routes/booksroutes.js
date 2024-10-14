@@ -47,8 +47,26 @@ router.post("/exchange-book" , auth , async(req,res) => {
     const {title , address , exchangeBook} = req.body;
     try {
         const book = await Book.findOne({title});
-        book.exchangeRequest.exchangeBookId = title;
+        book.exchangeRequest.exchangeBookId = exchangeBook;
         book.exchangeRequest.requestedBy = req.user._id;
+        book.exchangeRequest.reqAddress = address;
+        book.available = false;
+
+        return res.status(200).json({message: "added request."});
+    } catch (error) {
+        console.log("error occurred" , error);
+    }
+});
+
+router.post("/borrow-book" , auth , async(req,res) => {
+    const {title , address} = req.body;
+    try {
+        const book = await Book.findOne({title});
+        book.borrower.borrower_id = req.user._id;
+        book.borrower.reqAddress = address;
+        book.available = false;
+
+        return res.status(200).json({message: "added request."});
     } catch (error) {
         console.log("error occurred" , error);
     }
