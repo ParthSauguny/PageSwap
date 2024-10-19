@@ -14,7 +14,7 @@ const bookSchema = new mongo.Schema({
         required: true
     },
     borrower: {
-        borrower_id: { type: mongoose.Schema.Types.ObjectId, ref: 'User', default: null },
+        borrower_id: { type: mongo.Schema.Types.ObjectId, ref: 'User', default: null },
         reqAddress: {
             type: String,
             required: true,
@@ -22,7 +22,7 @@ const bookSchema = new mongo.Schema({
         }
     },
     exchangeRequest: {
-        requestedBy: { type: mongoose.Schema.Types.ObjectId, ref: 'User', default: null },
+        requestedBy: { type: mongo.Schema.Types.ObjectId, ref: 'User', default: null },
         exchangeBookId: { type: String, default: null },
         status: {
           type: String,

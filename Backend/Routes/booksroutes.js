@@ -5,6 +5,7 @@ const multer = require("multer");
 const upload = multer({dest: './uploads/cover-image'});
 const auth = require('../middlewares/auth');
 const uploadCloudinary = require('../utils/cloudinary');
+const Request = require('../models/requests');
 
 router.post("/add-book" , auth ,  upload.single('file') , async(req,res) => {
     const body = req.body;
@@ -44,13 +45,22 @@ router.get("/show-books" , auth , async(req,res) => {
 });
 
 router.post("/exchange-book" , auth , async(req,res) => {
-    const {title , address , exchangeBook} = req.body;
+    const {title , address , exchangeBook , bookOwner} = req.body;
     try {
         const book = await Book.findOne({title});
         book.exchangeRequest.exchangeBookId = exchangeBook;
         book.exchangeRequest.requestedBy = req.user._id;
         book.exchangeRequest.reqAddress = address;
         book.available = false;
+
+        await Request.create({
+            requester: req.user._id,
+            owner: bookOwner,
+            requestType: "exchange",
+            book: title,
+            requesterAddress: address,
+            requestExchangedWithBook: exchangeBook,
+        })
 
         return res.status(200).json({message: "added request."});
     } catch (error) {

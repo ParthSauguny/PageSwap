@@ -11,7 +11,11 @@ function Card({ title, author, genre, owner, available, address, url }) {
           className="w-1/3 object-cover"
         />
         <div className="w-2/3 p-4 flex flex-col justify-center">
-          <Link to="/book/seebook" state={title}> <h1 className="text-xl font-bold text-gray-800">{title}</h1> </Link>
+        <Link 
+        to = "/book/view-book"
+          state= {{ title, owner }}
+         >
+        <h1 className="text-xl font-bold text-gray-800">{title}</h1> </Link>
           <h2 className="text-sm text-gray-600">{author}</h2>
           <h3 className="text-sm text-gray-500 mt-2">Genre: {genre}</h3>
         </div>

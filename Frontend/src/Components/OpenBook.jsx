@@ -6,7 +6,7 @@ import { useLocation } from 'react-router-dom';
 function OpenBook() {
   const [willBorrow , setWillborrow] = useState(true);
   const loc = useLocation();
-  const title = loc.state;
+  const {title , owner} = loc.state;
 
   const handleBorrowClick = () => {
     setWillborrow(true);
@@ -18,7 +18,7 @@ function OpenBook() {
 
   return (
     <div>
-      <h1 className='flex justify-center text-4xl text-orange-900'> {title} </h1>
+      <h1 className='flex justify-center text-4xl text-orange-900'> {title} - {owner} </h1>
       
       <div className='flex flex-row p-4 justify-around mx-auto'>
         <button onClick={handleBorrowClick}
@@ -36,7 +36,7 @@ function OpenBook() {
 
       <div>
         {
-          willBorrow ? <BorrowForm book: title /> : <ExchangeForm book: title />
+          willBorrow ? <BorrowForm book={title} owner={owner} /> : <ExchangeForm book={title} owner={owner} />
         }
       </div>
 

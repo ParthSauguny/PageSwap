@@ -2,11 +2,12 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import { toast } from 'react-toastify';
 
-const ExchangeForm = ({book}) => {
+const ExchangeForm = ({book , owner}) => {
   const [formData, setFormData] = useState({
     name: '',
     address: '',
     title: book,
+    bookOwner: owner,
     exchangeBook: '',
     comments: '',
   });
