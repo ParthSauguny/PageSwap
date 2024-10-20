@@ -10,7 +10,11 @@ export default defineConfig({
         changeOrigin: true,
         secure: false,
       },
-      '/book':"http://localhost:5000",
+      '/book':{
+        target: 'http://localhost:5000',  // Backend API server
+        changeOrigin: true,
+        secure: false,
+      }
     },
   },
   plugins: [react()],

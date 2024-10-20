@@ -17,7 +17,6 @@ const bookSchema = new mongo.Schema({
         borrower_id: { type: mongo.Schema.Types.ObjectId, ref: 'User', default: null },
         reqAddress: {
             type: String,
-            required: true,
             default: null
         }
     },
@@ -31,7 +30,6 @@ const bookSchema = new mongo.Schema({
         },
         reqAddress:{
             type: String,
-            required: true,
             default: null
         }
     },

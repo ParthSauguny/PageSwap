@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import axios from 'axios';
+import {toast} from 'react-toastify';
 
 const BorrowForm = ({book}) => {
   const [formData, setFormData] = useState({
@@ -17,10 +18,10 @@ const BorrowForm = ({book}) => {
     e.preventDefault();
 
     try {
-      const res = axios.post("/book/exchange-req" , formData , {
+      const res = axios.post("/book/borrow-book" , formData , {
         withCredentials: true,
       });
-      if(res.response.status === 200){
+      if(res.status === 200){
         toast.success("request added. Please wait for confirmation by the owner.")
       }
     } catch (error) {

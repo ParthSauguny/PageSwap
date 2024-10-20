@@ -20,10 +20,10 @@ const ExchangeForm = ({book , owner}) => {
     e.preventDefault();
     
     try {
-      const res = axios.post("/book/borrow-req" , formData , {
+      const res = axios.post("/book/exchange-book" , formData , {
         withCredentials: true,
       });
-      if(res.response.status === 200){
+      if(res.status === 200){
         toast.success("request added. Please wait for confirmation by the owner.")
       }
     } catch (error) {

@@ -3,7 +3,7 @@ import axios from 'axios'
 import Card from './Card'
 
 function ViewBooks() {
-  const [books , setBooks] = useState([]);
+  const [books , setBooks] = useState(null);
 
   useEffect(() => {
     axios.get("/book/show-books")
@@ -32,10 +32,10 @@ function ViewBooks() {
             />
           ))
         ) : (
-          <div>No books available at the moment.</div> // Message for empty array
+          <div className='flex justify-center text-4xl'>No books available at the moment.</div> // Fallback message for null/undefined books
         )
       ) : (
-        <div>Please register yourself first</div> // Fallback message for null/undefined books
+        <div className='flex justify-center text-4xl'>Please register yourself first</div> // Message for empty array
       )}
     </div>
   )

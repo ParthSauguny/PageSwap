@@ -70,11 +70,14 @@ router.post("/exchange-book" , auth , async(req,res) => {
 
 router.post("/borrow-book" , auth , async(req,res) => {
     const {title , address} = req.body;
+    console.log("here we start" , title , address);
     try {
         const book = await Book.findOne({title});
         book.borrower.borrower_id = req.user._id;
         book.borrower.reqAddress = address;
         book.available = false;
+        console.log("added");
+        
 
         return res.status(200).json({message: "added request."});
     } catch (error) {
