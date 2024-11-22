@@ -9,6 +9,7 @@ function ViewBooks() {
     axios.get("/book/show-books")
     .then(res => {
       setBooks(res.data);
+      console.log(res.data);
     })
     .catch(error => {
       console.error('Error fetching books:', error);
@@ -26,7 +27,7 @@ function ViewBooks() {
               author={book.author}
               url={book.image_url}
               genre={book.genre}
-              owner={book.owner?.username || 'Unknown Owner'}  // Safe access with a fallback
+              owner={book.owner || 'Unknown Owner'}  // Safe access with a fallback
               available={book.available}
               address={book.address}
             />

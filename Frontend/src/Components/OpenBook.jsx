@@ -36,7 +36,7 @@ function OpenBook() {
 
       <div>
         {
-          willBorrow ? <BorrowForm book={title} owner={owner} /> : <ExchangeForm book={title} owner={owner} />
+          willBorrow ? <BorrowForm book={title} owner={owner._id} /> : <ExchangeForm book={title} owner={owner} />
         }
       </div>
 

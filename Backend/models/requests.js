@@ -1,36 +1,45 @@
-const {model , Schema} = require('mongoose');
-const mongo = require('mongoose');
+const mongoose = require("mongoose");
 
-const request = new Schema({
+const requestSchema = new mongoose.Schema({
     owner: {
-        type: mongo.Schema.Types.ObjectId, ref: 'User',
+        type: mongoose.Schema.Types.ObjectId, 
+        ref: 'User',
         required: true,
     },
     requester: {
-        type: mongo.Schema.Types.ObjectId, ref: 'User',
+        type: mongoose.Schema.Types.ObjectId, 
+        ref: 'User',
         required: true,
     },
     book: {
-        type: mongo.Schema.Types.ObjectId, ref: 'Book',
+        type: mongoose.Schema.Types.ObjectId, 
+        ref: 'Book',
         required: true,
     },
     requestType: {
         type: String,
-        enum: ["borrow" , "exchange"],
-    },
-    price:{
-        type:Number,
-        default: 0,
+        enum: ["borrow", "exchange"],
+        required: true,
     },
     requestExchangedWithBook: {
-        type: mongo.Schema.Types.ObjectId, ref: 'Book',
-        default: null
+        type: mongoose.Schema.Types.ObjectId, 
+        ref: 'Book',
+        default: null,  // Only populated for exchange requests
     },
     requesterAddress: {
         type: String,
+    },
+    status: {
+        type: String,
+        enum: ["pending", "accepted", "rejected", "completed"],
+        default: "pending",
+    },
+    price: {
+        type: Number,
+        default: 0,
     }
-} , {timestamps: true});
+}, { timestamps: true });
 
-const Request = model('Request' , request);
+const Request = mongoose.model("Request", requestSchema);
 
 module.exports = Request;

@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import {toast} from 'react-toastify';
+import { toast } from 'react-toastify';
 
-const BorrowForm = ({book}) => {
+const BorrowForm = ({ book, bookOwner }) => {
   const [formData, setFormData] = useState({
-    name: '',
-    title: book,
+    bookTitle: book,  // The title of the book
+    bookOwner,
     address: '',
     comments: '',
   });
@@ -14,35 +14,29 @@ const BorrowForm = ({book}) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
     try {
-      const res = axios.post("/book/borrow-book" , formData , {
+      const res = await axios.post("/book/borrow-book", {
+        ...formData,
+        bookOwner,  // Passing the book owner id here
+      }, {
         withCredentials: true,
       });
-      if(res.status === 200){
-        toast.success("request added. Please wait for confirmation by the owner.")
+
+      if (res.status === 200) {
+        toast.success("Request added. Please wait for confirmation by the owner.");
       }
     } catch (error) {
-      console.log(error);
-      toast.dark("Couldn't add request. Please try later");
+      console.error(error);
+      toast.error("Couldn't add request. Please try again later.");
     }
   };
 
   return (
     <form onSubmit={handleSubmit} className="max-w-md mx-auto bg-white p-8 shadow-md rounded">
       <h2 className="text-2xl font-bold mb-6">Borrow Book</h2>
-
-      <label className="block mb-2">Name:</label>
-      <input 
-        type="text" 
-        name="name" 
-        value={formData.name} 
-        onChange={handleChange}
-        className="w-full p-2 mb-4 border rounded"
-        required
-      />
 
       <label className="block mb-2">Your pickup Address:</label>
       <input 
