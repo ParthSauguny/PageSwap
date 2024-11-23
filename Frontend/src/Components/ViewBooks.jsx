@@ -33,10 +33,10 @@ function ViewBooks() {
             />
           ))
         ) : (
-          <div className='flex justify-center text-4xl'>No books available at the moment.</div> // Fallback message for null/undefined books
+          <div className='flex justify-center text-4xl'>No books available at the moment.</div> // Fallback message for empty books array
         )
       ) : (
-        <div className='flex justify-center text-4xl'>Please register yourself first</div> // Message for empty array
+        <div className='flex justify-center text-4xl'>Please register yourself first</div> // Message for null array
       )}
     </div>
   )
