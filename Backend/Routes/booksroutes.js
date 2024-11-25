@@ -6,6 +6,7 @@ const upload = multer({ dest: './uploads/cover-image' });
 const auth = require('../middlewares/auth');
 const uploadCloudinary = require('../utils/cloudinary');
 const Request = require('../models/requests');
+const { ObjectId } = require('mongoose').Types;
 
 // Add a new book to the collection
 router.post("/add-book", auth, upload.single('file'), async (req, res) => {
@@ -45,15 +46,15 @@ router.get("/show-books", auth, async (req, res) => {
 
 // Create an exchange request
 router.post("/exchange-book", auth, async (req, res) => {
-    const { bookTitle, exchangeBookId, address, bookOwner } = req.body;
+    const { book_id , bookTitle, exchangeBookId, address, bookOwner } = req.body;
 
     try {
         // Create the exchange request
         await Request.create({
             requester: req.user._id,
-            owner: bookOwner,
+            owner: new ObjectId(bookOwner),
             requestType: "exchange",
-            book: bookTitle,
+            book: new ObjectId(book_id),
             requesterAddress: address,
             requestExchangedWithBook: exchangeBookId,
         });
@@ -69,7 +70,7 @@ router.post("/exchange-book", auth, async (req, res) => {
 
 // Create a borrow request
 router.post("/borrow-book", auth, async (req, res) => {
-    const { bookTitle, address, bookOwner } = req.body;
+    const { book_id , bookTitle, address, bookOwner } = req.body;
     console.log(bookTitle , req.user._id , bookOwner , address);
 
     try {
@@ -77,9 +78,9 @@ router.post("/borrow-book", auth, async (req, res) => {
         // Create the borrow request
         await Request.create({
             requester: req.user._id,
-            owner: bookOwner,
+            owner: new ObjectId(bookOwner),
             requestType: "borrow",
-            book: bookTitle,
+            book: new ObjectId(book_id),
             requesterAddress: address,
         });
         console.log("try catch chal rha");
@@ -88,6 +89,7 @@ router.post("/borrow-book", auth, async (req, res) => {
         console.log("request paadi");
         return res.status(200).json({ message: "Borrow request created successfully!" });
     } catch (error) {
+        console.log(error);
         return res.status(500).json({ message: "Error occurred while creating borrow request." });
     }
 });

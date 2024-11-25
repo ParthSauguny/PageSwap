@@ -2,10 +2,11 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import { toast } from 'react-toastify';
 
-const ExchangeForm = ({book , owner}) => {
+const ExchangeForm = ({book_id , book , owner}) => {
   const [formData, setFormData] = useState({
     name: '',
     address: '',
+    book_id,
     title: book,
     bookOwner: owner,
     exchangeBook: '',
@@ -35,6 +36,7 @@ const ExchangeForm = ({book , owner}) => {
   return (
     <form onSubmit={handleSubmit} className="max-w-md mx-auto bg-white p-8 shadow-md rounded">
       <h2 className="text-2xl font-bold mb-6">Exchange Book</h2>
+      <h1>{owner}</h1>
 
       <label className="block mb-2">Name:</label>
       <input 

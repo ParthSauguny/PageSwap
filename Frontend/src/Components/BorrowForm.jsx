@@ -2,10 +2,11 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import { toast } from 'react-toastify';
 
-const BorrowForm = ({ book, bookOwner }) => {
+const BorrowForm = ({ book_id , book, owner }) => {
   const [formData, setFormData] = useState({
+    book_id,
     bookTitle: book,  // The title of the book
-    bookOwner,
+    bookOwner: owner,
     address: '',
     comments: '',
   });
@@ -20,7 +21,6 @@ const BorrowForm = ({ book, bookOwner }) => {
     try {
       const res = await axios.post("/book/borrow-book", {
         ...formData,
-        bookOwner,  // Passing the book owner id here
       }, {
         withCredentials: true,
       });
