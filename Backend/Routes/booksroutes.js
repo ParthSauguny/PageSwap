@@ -6,6 +6,7 @@ const upload = multer({ dest: './uploads/cover-image' });
 const auth = require('../middlewares/auth');
 const uploadCloudinary = require('../utils/cloudinary');
 const Request = require('../models/requests');
+const Notification = require('../models/notificationSchema');
 const { ObjectId } = require('mongoose').Types;
 
 // Add a new book to the collection
@@ -57,6 +58,11 @@ router.post("/exchange-book", auth, async (req, res) => {
             book: new ObjectId(book_id),
             requesterAddress: address,
             requestExchangedWithBook: exchangeBookId,
+        });
+
+        await Notification.create({
+            user: userId,
+            message,
         });
 
         // Mark the books as unavailable after request creation (optional)
