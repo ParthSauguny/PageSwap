@@ -14,6 +14,11 @@ export default defineConfig({
         target: 'http://localhost:5000',  // Backend API server
         changeOrigin: true,
         secure: false,
+      },
+      '/api':{
+        target: 'http://localhost:5000',  // Backend API server
+        changeOrigin: true,
+        secure: false,
       }
     },
   },

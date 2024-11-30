@@ -47,8 +47,9 @@ router.get("/show-books", auth, async (req, res) => {
 
 // Create an exchange request
 router.post("/exchange-book", auth, async (req, res) => {
-    const { book_id , bookTitle, exchangeBookId, address, bookOwner } = req.body;
+    const { name , book_id , bookTitle, exchangeBook, address, bookOwner } = req.body;
 
+    const exchangeBookId = Book.findOne({title: exchangeBook})._id;
     try {
         // Create the exchange request
         await Request.create({
@@ -57,12 +58,12 @@ router.post("/exchange-book", auth, async (req, res) => {
             requestType: "exchange",
             book: new ObjectId(book_id),
             requesterAddress: address,
-            requestExchangedWithBook: exchangeBookId,
+            requestExchangedWithBook: new ObjectId(exchangeBookId),
         });
 
         await Notification.create({
-            user: userId,
-            message,
+            user: new ObjectId(bookOwner),
+            message: `${name} wants to exchange your book ${bookTitle} with ${exchangeBook}`,
         });
 
         // Mark the books as unavailable after request creation (optional)
@@ -76,7 +77,7 @@ router.post("/exchange-book", auth, async (req, res) => {
 
 // Create a borrow request
 router.post("/borrow-book", auth, async (req, res) => {
-    const { book_id , bookTitle, address, bookOwner } = req.body;
+    const { name , book_id , bookTitle, address, bookOwner } = req.body;
     console.log(bookTitle , req.user._id , bookOwner , address);
 
     try {
@@ -89,7 +90,11 @@ router.post("/borrow-book", auth, async (req, res) => {
             book: new ObjectId(book_id),
             requesterAddress: address,
         });
-        console.log("try catch chal rha");
+
+        await Notification.create({
+            user: new ObjectId(bookOwner),
+            message: `${name} wants to borrow your book ${bookTitle}`,
+        });
         // Mark the book as unavailable after borrowing (optional)
         await Book.updateOne({ title: bookTitle }, { available: false });
         console.log("request paadi");
