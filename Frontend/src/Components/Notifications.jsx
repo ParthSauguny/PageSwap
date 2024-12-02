@@ -19,7 +19,7 @@ function Notifications() {
     <div className='mx-80 border-2 border-slate-200 text-lg text-black bg-gray-500'>
         {
           notifications.map((noti) => {
-            <ul>{noti}</ul>
+            <li>{noti}</li>
           })
         }
     </div>

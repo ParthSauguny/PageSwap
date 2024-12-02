@@ -1,6 +1,7 @@
 import React from 'react'
 import {Link} from "react-router-dom"
 import Logo from '../Assets/Logo.jpg'
+import { AiOutlineHeart } from "react-icons/ai";
 
 function Navbar() {
   return (
@@ -11,6 +12,7 @@ function Navbar() {
       </div>
         <Link className=' hover:text-red-400' to="/">Home</Link>
         <Link className=' hover:text-red-400' to="/about-us">About Us</Link>
+        <AiOutlineHeart/>
         <Link to="/user/login">
             <button className='bg-black text-white border-4 p-2 rounded-3xl hover:bg-slate-700'>Login</button>
         </Link>
