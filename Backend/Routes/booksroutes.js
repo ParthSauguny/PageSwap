@@ -63,6 +63,7 @@ router.post("/exchange-book", auth, async (req, res) => {
 
         await Notification.create({
             user: new ObjectId(bookOwner),
+            book: new ObjectId(book_id),
             message: `${name} wants to exchange your book ${bookTitle} with ${exchangeBook}`,
         });
 
@@ -93,6 +94,7 @@ router.post("/borrow-book", auth, async (req, res) => {
 
         await Notification.create({
             user: new ObjectId(bookOwner),
+            book: new ObjectId(book_id),
             message: `${name} wants to borrow your book ${bookTitle}`,
         });
         // Mark the book as unavailable after borrowing (optional)
