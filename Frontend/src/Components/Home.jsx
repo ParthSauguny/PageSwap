@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 
 function Home() {
   return (
-    <div className="h-screen bg-gradient-to-r from-[#FFB6C1] to-[#A2C2E2] text-white flex flex-col justify-center items-center">
+    <div className="h-screen bg-gradient-to-br from-green-500 via-orange-900 to-green-500 text-white flex flex-col justify-center items-center">
       {/* Main Content */}
       <div className="text-center px-6 py-12 sm:px-10 lg:px-20 transition-transform duration-500 ease-in-out">
         {/* Title */}
