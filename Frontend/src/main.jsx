@@ -13,6 +13,7 @@ import ViewBooks from './Components/ViewBooks';
 import Image from './Components/Image';
 import OpenBook from './Components/OpenBook';
 import Notifications from './Components/Notifications';
+import BorrowForm from './Components/BorrowForm';
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -26,6 +27,7 @@ const router = createBrowserRouter(
     <Route path='/image' element={<Image/>}/>
     <Route path='/book/:book_title' element={<OpenBook/>}/>
     <Route path='/notifications' element={<Notifications/>}/>
+    <Route path='/:book_title/borrow' element={<BorrowForm/>}/>
   </Route>
   )
 )

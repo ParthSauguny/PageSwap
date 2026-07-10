@@ -15,8 +15,8 @@ router.route("/signup").post(async (req, res) => {
         const existingUser = await usermodel.findOne({ $or: [{ username }, { email }] });
 
         if (existingUser) {
-            // If the username or email already exists, return a 401 response with a message
-            return res.status(401).json({ error: "Username or email already exists." });
+            // If the username or email already exists, return a 409(conflict) response with a message
+            return res.status(409).json({ error: "Username or email already exists." });
         }
 
         // Create a new user
@@ -26,8 +26,11 @@ router.route("/signup").post(async (req, res) => {
             password
         });
 
+        const createdUser =
+            await usermodel.findById(newUser._id).select("-password -refreshtoken");
+
         // Send success response
-        return res.status(200).json({ message: "User created successfully", user: newUser });
+        return res.status(201).json({ message: "User created successfully", user: createdUser });
     } catch (error) {
         // Catch and log any errors that occur
         console.error("Error during signup:", error);
@@ -72,9 +75,16 @@ router.route("/login").post(async(req,res) => {
     }
 });
 
-router.get("/logout", (req, res) => {
-    res.clearCookie("accessToken").clearCookie("refreshToken");
-    res.status(200).json({message: "logged out!"});
+router.get("/logout", async(req, res) => {
+    try {
+        const userLO = req.user._id;
+        userLO.refreshtoken = undefined;
+        await userLO.save();
+        res.clearCookie("accesstoken").clearCookie("refreshtoken");
+        res.status(200).json({message: "logged out!"});
+    } catch (error) {
+        console.log(error);
+    }
   });
 
 module.exports = router;

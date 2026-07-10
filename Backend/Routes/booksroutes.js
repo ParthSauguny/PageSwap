@@ -12,6 +12,11 @@ const { ObjectId } = require('mongoose').Types;
 // Add a new book to the collection
 router.post("/add-book", auth, upload.single('file'), async (req, res) => {
     const body = req.body;
+    if(!req.file){
+        return res.status(400).json({
+            message: "Cover image required"
+        });
+    }
     
     try {
         // Upload image to Cloudinary
@@ -29,52 +34,28 @@ router.post("/add-book", auth, upload.single('file'), async (req, res) => {
             price: body.price || 0 // Default to 0 if not provided
         });
 
-        return res.status(200).json({ message: "Book added successfully!" });
+        return res.status(201).json({ message: "Book added successfully!" });
     } catch (error) {
         return res.status(400).json({ message: error.message });
+    }finally {
+        if (req.file?.path) {
+            try {
+                await fs.unlink(req.file.path);
+            } catch (err) {}
+        }
     }
 });
 
 // Fetch all books
-router.get("/show-books", auth, async (req, res) => {
+router.get("/show-books", async (req, res) => {
     try {
-        const books = await Book.find().populate('owner', 'username');
+        const books = await Book.find().populate('owner', 'username').lean();
         res.json(books);
     } catch (error) {
         res.status(500).json({ message: "Unable to fetch books." });
     }
 });
 
-// Create an exchange request
-router.post("/exchange-book", auth, async (req, res) => {
-    const { name , book_id , bookTitle, exchangeBook, address, bookOwner } = req.body;
-
-    const exchangeBookId = Book.findOne({title: exchangeBook})._id;
-    try {
-        // Create the exchange request
-        await Request.create({
-            requester: req.user._id,
-            owner: new ObjectId(bookOwner),
-            requestType: "exchange",
-            book: new ObjectId(book_id),
-            requesterAddress: address,
-            requestExchangedWithBook: new ObjectId(exchangeBookId),
-        });
-
-        await Notification.create({
-            user: new ObjectId(bookOwner),
-            book: new ObjectId(book_id),
-            message: `${name} wants to exchange your book ${bookTitle} with ${exchangeBook}`,
-        });
-
-        // Mark the books as unavailable after request creation (optional)
-        await Book.updateMany({ title: { $in: [bookTitle, exchangeBookId] } }, { available: false });
-
-        return res.status(200).json({ message: "Exchange request created successfully!" });
-    } catch (error) {
-        return res.status(500).json({ message: "Error occurred while creating exchange request." });
-    }
-});
 
 // Create a borrow request
 router.post("/borrow-book", auth, async (req, res) => {

@@ -16,16 +16,6 @@ const requestSchema = new mongoose.Schema({
         ref: 'Book',
         required: true,
     },
-    requestType: {
-        type: String,
-        enum: ["borrow", "exchange"],
-        required: true,
-    },
-    requestExchangedWithBook: {
-        type: mongoose.Schema.Types.ObjectId, 
-        ref: 'Book',
-        default: null,  // Only populated for exchange requests
-    },
     requesterAddress: {
         type: String,
     },

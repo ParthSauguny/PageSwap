@@ -1,72 +1,190 @@
 import React from 'react';
 import {Link} from 'react-router-dom';
+import Navbar from './navbar';
+import {
+  BookOpen,
+  Handshake,
+  Users,
+  Leaf,
+  ArrowRight,
+} from "lucide-react";
 
 function AboutUs() {
   return (
-    <div 
-      className="relative min-h-screen bg-fixed bg-cover bg-center text-white flex items-center justify-center"
-      style={{
-        backgroundImage: "url('https://images.unsplash.com/photo-1529333166437-7750a6dd5a70?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1920')", // High-quality book-themed image
-      }}
-    >
-      {/* Overlay for visual appeal */}
-      <div className="absolute inset-0 bg-gradient-to-br from-black/80 via-gray-900/70 to-gray-800/70"></div>
+   <>
+    <Navbar/>
+    <section className="bg-slate-50">
 
-      {/* Main Content */}
-      <div className="relative z-10 w-full max-w-5xl mx-auto p-6 sm:p-12 lg:p-16 bg-black/70 rounded-2xl shadow-2xl backdrop-blur-md">
-        {/* Title Section */}
-        <h1 className="text-center text-6xl font-bold mb-8 text-transparent bg-clip-text bg-gradient-to-r from-blue-400 via-green-400 to-yellow-400">
-          About Us
+      {/* Hero */}
+
+      <div className="mx-auto max-w-6xl px-6 py-24 text-center">
+
+        <h1 className="text-5xl font-bold text-slate-900">
+          About PageSwap
         </h1>
-        <p className="text-lg leading-relaxed mb-10 text-gray-300">
-          Welcome to <span className="font-bold text-blue-300">PageSwap</span>, your go-to online community for exchanging books! At PageSwap, we believe in the power of sharing and the joy of discovering new books. Our mission is to create a vibrant and inclusive platform where book lovers can connect, share, and explore a world of literary treasures.
+
+        <p className="mx-auto mt-6 max-w-3xl text-lg leading-8 text-slate-600">
+          PageSwap is a community-driven platform where readers can share,
+          borrow, and discover books. Instead of letting books collect dust on
+          shelves, we help them find their next reader.
         </p>
 
-        {/* Who We Are Section */}
-        <h2 className="text-4xl font-extrabold text-center mb-6 text-green-400">Who We Are</h2>
-        <p className="text-lg leading-relaxed mb-8 text-gray-300">
-          PageSwap is a dedicated team of avid readers and tech enthusiasts who are passionate about making reading more accessible and enjoyable for everyone. We understand that books can be expensive and sometimes hard to find, which is why we've created a space where you can exchange books with fellow readers from around the globe.
-        </p>
+      </div>
 
-        {/* Why Choose Us Section */}
-        <h2 className="text-4xl font-extrabold text-center mb-6 text-blue-400">Why Choose Us</h2>
-        <ul className="space-y-6 text-gray-300">
-          <li className="flex items-center gap-4">
-            <span className="bg-green-400 text-black font-bold px-3 py-1 rounded-full">✔</span>
-            <span>Community Focused: We're more than just a book exchange site; we're a community of readers who support and inspire each other.</span>
-          </li>
-          <li className="flex items-center gap-4">
-            <span className="bg-green-400 text-black font-bold px-3 py-1 rounded-full">✔</span>
-            <span>User-Friendly: Our platform is designed to be intuitive and easy to navigate, so you can focus on what matters most – the books!</span>
-          </li>
-          <li className="flex items-center gap-4">
-            <span className="bg-green-400 text-black font-bold px-3 py-1 rounded-full">✔</span>
-            <span>Secure & Trustworthy: We prioritize the security and privacy of our users, ensuring a safe and reliable experience for everyone.</span>
-          </li>
-          <li className="flex items-center gap-4">
-            <span className="bg-green-400 text-black font-bold px-3 py-1 rounded-full">✔</span>
-            <span>Diverse Selection: With a wide range of genres and titles available, there's something for every reader at PageSwap.</span>
-          </li>
-        </ul>
+      {/* Mission */}
 
-        {/* Call to Action */}
-        <div className="text-center mt-10">
-          <h2 className="text-2xl font-bold mb-6 text-green-400">
-            Join us today and become a part of the PageSwap community.
+      <section className="mx-auto max-w-6xl px-6 pb-24">
+
+        <div className="rounded-3xl bg-white p-10 shadow-sm">
+
+          <h2 className="text-3xl font-bold text-slate-900">
+            Our Mission
           </h2>
-          <Link to={'/user/signup'}>
-            <button className="bg-gradient-to-r from-blue-500 via-green-500 to-yellow-500 text-white px-10 py-4 rounded-full text-lg font-semibold shadow-lg hover:shadow-2xl hover:scale-105 transform transition duration-300">
-              Join Now
-            </button>
-          </Link>
+
+          <p className="mt-6 text-lg leading-8 text-slate-600">
+            We believe that every book has more than one life. By encouraging
+            borrowing and lending, PageSwap makes reading more affordable,
+            sustainable, and community-focused.
+          </p>
+
         </div>
 
-        {/* Footer */}
-        <h1 className="text-center text-3xl mt-12 text-gray-300 font-light italic">
-          Happy Reading!
-        </h1>
-      </div>
-    </div>
+      </section>
+
+      {/* Features */}
+
+      <section className="mx-auto max-w-6xl px-6 pb-24">
+
+        <h2 className="mb-12 text-center text-4xl font-bold text-slate-900">
+          Why PageSwap?
+        </h2>
+
+        <div className="grid gap-8 md:grid-cols-3">
+
+          <div className="rounded-3xl bg-white p-8 shadow-sm transition hover:-translate-y-1 hover:shadow-lg">
+            <BookOpen className="text-blue-600" size={36} />
+            <h3 className="mt-6 text-2xl font-semibold">
+              Borrow Books
+            </h3>
+            <p className="mt-4 text-slate-600">
+              Find books shared by other readers and enjoy them without buying
+              new copies.
+            </p>
+          </div>
+
+          <div className="rounded-3xl bg-white p-8 shadow-sm transition hover:-translate-y-1 hover:shadow-lg">
+            <Handshake className="text-blue-600" size={36} />
+            <h3 className="mt-6 text-2xl font-semibold">
+              Share Your Library
+            </h3>
+            <p className="mt-4 text-slate-600">
+              Give your books a second life by lending them to someone who wants
+              to read them.
+            </p>
+          </div>
+
+          <div className="rounded-3xl bg-white p-8 shadow-sm transition hover:-translate-y-1 hover:shadow-lg">
+            <Users className="text-blue-600" size={36} />
+            <h3 className="mt-6 text-2xl font-semibold">
+              Build Community
+            </h3>
+            <p className="mt-4 text-slate-600">
+              Connect with fellow readers and encourage a culture of sharing and
+              learning.
+            </p>
+          </div>
+
+        </div>
+
+      </section>
+
+      {/* Story */}
+
+      <section className="mx-auto max-w-6xl px-6 pb-24">
+
+        <div className="rounded-3xl bg-white p-10 shadow-sm">
+
+          <h2 className="text-3xl font-bold text-slate-900">
+            Our Story
+          </h2>
+
+          <p className="mt-6 text-lg leading-8 text-slate-600">
+            PageSwap started with a simple idea: many great books remain unused
+            after being read once. Rather than leaving them on shelves, why not
+            let them inspire someone else? The platform was created to make
+            borrowing and lending books simple, trustworthy, and accessible for
+            everyone.
+          </p>
+
+        </div>
+
+      </section>
+
+      {/* Values */}
+
+      <section className="mx-auto max-w-6xl px-6 pb-24">
+
+        <h2 className="mb-12 text-center text-4xl font-bold text-slate-900">
+          Our Values
+        </h2>
+
+        <div className="grid gap-8 md:grid-cols-2">
+
+          <div className="rounded-3xl bg-white p-8 shadow-sm">
+            <Handshake className="text-blue-600" size={32} />
+            <h3 className="mt-5 text-2xl font-semibold">
+              Trust
+            </h3>
+            <p className="mt-3 text-slate-600">
+              Every interaction is built on respect and responsibility between
+              readers.
+            </p>
+          </div>
+
+          <div className="rounded-3xl bg-white p-8 shadow-sm">
+            <Leaf className="text-green-600" size={32} />
+            <h3 className="mt-5 text-2xl font-semibold">
+              Sustainability
+            </h3>
+            <p className="mt-3 text-slate-600">
+              Sharing books reduces waste and helps every book reach more
+              readers.
+            </p>
+          </div>
+
+        </div>
+
+      </section>
+
+      {/* CTA */}
+
+      <section className="px-6 pb-24">
+
+        <div className="mx-auto max-w-5xl rounded-3xl bg-gradient-to-r from-blue-700 to-slate-900 p-14 text-center text-white">
+
+          <h2 className="text-4xl font-bold">
+            Ready to discover your next read?
+          </h2>
+
+          <p className="mt-5 text-lg text-blue-100">
+            Explore books shared by the PageSwap community and become part of
+            the journey.
+          </p>
+
+          <Link
+            to="/books"
+            className="mt-10 inline-flex items-center gap-2 rounded-xl bg-white px-8 py-4 font-semibold text-blue-700 transition hover:scale-105"
+          >
+            Browse Books
+            <ArrowRight size={20} />
+          </Link>
+
+        </div>
+
+      </section>
+
+    </section>
+   </>
   );
 }
 

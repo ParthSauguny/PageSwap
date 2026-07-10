@@ -5,7 +5,7 @@ require('dotenv').config();
 const authenticateUser = async (req, res, next) => {
   try {
     // Extract token from cookies or Authorization header
-    const token = req.cookies?.accesstoken || req.header("Authorisation")?.replace("Bearer" , "")
+    const token = req.cookies?.accesstoken || req.header("Authorization")?.replace("Bearer " , "");
 
     if (!token) {
       return res.status(401).json({ message: 'Unauthorised request' });
@@ -15,7 +15,7 @@ const authenticateUser = async (req, res, next) => {
     const decoded = jwt.verify(token, process.env.ACCESS_TOKEN_SECRET);
 
     // Find the user from the decoded token data (user ID or email)
-    const user = await User.findById(decoded?._id).select("-password -refreshtoken") // token contains user._id
+    const user = await User.findById(decoded?._id).select("-password -refreshtoken").lean(); // token contains user._id
 
     if (!user) {
       return res.status(401).json({message: "not found user"});
@@ -26,7 +26,9 @@ const authenticateUser = async (req, res, next) => {
     next();
   } catch (err) {
     console.error(err);
-    return res.status(401).json({ message: 'Token is not valid.' });
+    if(err.name === "TokenExpiredError")
+      return res.status(401).json({ message: 'Token expired.' });
+    return res.status(401).json({message: "invalid token"});
   }
 };
 

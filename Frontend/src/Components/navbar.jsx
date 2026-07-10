@@ -1,43 +1,84 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
-import Logo from '../Assets/Logo.jpg';
-import { AiOutlineHeart } from 'react-icons/ai';
+import React from "react";
+import { Link } from "react-router-dom";
+import Logo from "../Assets/Logo.jpg";
+import { Heart, BookOpen } from "lucide-react";
 
 function Navbar() {
   return (
-    <nav className="bg-gradient-to-r from-sky-600 via-blue-900 to-sky-600 text-white flex justify-between items-center h-20 px-8 py-2 rounded-md shadow-lg">
-      {/* Logo and Title */}
-      <div className="flex items-center">
-        <img src={Logo} alt="PageSwap Logo" className="h-14 w-14 rounded-full shadow-md" />
-        <div className="ml-4 text-5xl font-bold">PageSwap</div>
-      </div>
+    <header className="sticky top-0 z-50 border-b border-slate-200 bg-white/80 backdrop-blur-xl">
+      <nav className="mx-auto flex h-20 max-w-7xl items-center justify-between px-6 lg:px-10">
 
-      {/* Navigation Links */}
-      <div className="flex items-center space-x-10 text-2xl font-semibold">
+        {/* Logo */}
         <Link
           to="/"
-          className="hover:text-yellow-300 transition-colors duration-300"
+          className="flex items-center gap-3 transition-opacity hover:opacity-90"
         >
-          Home
-        </Link>
-        <Link
-          to="/about-us"
-          className="hover:text-yellow-300 transition-colors duration-300"
-        >
-          About Us
-        </Link>
-        <AiOutlineHeart className="hover:text-yellow-400 transition-transform duration-300 hover:scale-125 cursor-pointer text-3xl" />
-      </div>
+          <img
+            src={Logo}
+            alt="PageSwap"
+            className="h-11 w-11 rounded-xl object-cover shadow-sm"
+          />
 
-      {/* Login Button */}
-      <div>
+          <div>
+            <h1 className="text-xl font-bold tracking-tight text-slate-900">
+              PageSwap
+            </h1>
+
+            <p className="text-xs text-slate-500">
+              Every Book Deserves Another Reader
+            </p>
+          </div>
+        </Link>
+
+        {/* Navigation */}
+        <div className="hidden items-center gap-8 md:flex">
+
+          <Link
+            to="/"
+            className="text-[17px] font-semibold text-slate-700 transition-all duration-200 hover:text-blue-600"
+          >
+            Home
+          </Link>
+
+          <Link
+            to="/about-us"
+            className="text-[17px] font-semibold text-slate-700 transition-all duration-200 hover:text-blue-600"
+          >
+            About Us
+          </Link>
+
+          <button
+            className="rounded-full p-2 text-slate-600 transition hover:bg-red-50 hover:text-red-500"
+          >
+            <Heart size={20} />
+          </button>
+
+        </div>
+
+        {/* Right Side */}
         <Link to="/user/login">
-          <button className="bg-white text-sky-800 px-8 py-3 text-xl font-bold rounded-full border-4 border-transparent hover:bg-yellow-300 hover:text-sky-900 transition-all duration-300">
+          <button
+            className="
+              rounded-xl
+              bg-blue-600
+              px-5
+              py-2.5
+              font-semibold
+              text-white
+              shadow-lg
+              transition-all
+              duration-300
+              hover:-translate-y-0.5
+              hover:bg-blue-700
+              hover:shadow-xl
+            "
+          >
             Login
           </button>
         </Link>
-      </div>
-    </nav>
+
+      </nav>
+    </header>
   );
 }
 
