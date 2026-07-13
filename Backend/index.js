@@ -3,6 +3,7 @@ const mongo = require("mongoose");
 const cookieParser = require('cookie-parser');
 const bookRouter = require("./Routes/booksroutes");
 const userRouter = require("./Routes/user.js");
+const notificationRouter = require("./Routes/notifications.js")
 const cors = require("cors");
 
 const PORT = process.env.PORT || 8000;
@@ -24,6 +25,7 @@ app.use(cookieParser());
 app.use(express.urlencoded({extended: true}));
 app.use("/user" , userRouter);
 app.use("/book" , bookRouter);
+app.use("/noti" , notificationRouter);
 
 app.get('/' , (req,res) => {
     res.send("hello");

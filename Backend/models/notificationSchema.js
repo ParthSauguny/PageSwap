@@ -4,6 +4,8 @@ const NotificationSchema = new mongoose.Schema({
     user: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
     book: { type: mongoose.Schema.Types.ObjectId, ref: 'Book', required: true },
     message: { type: String, required: true },
+    request: {type: mongoose.Schema.Types.ObjectId , ref: 'Request' , required: true},
+    read: {type: Boolean , default: false},
     createdAt: { type: Date, default: Date.now },
 });
 

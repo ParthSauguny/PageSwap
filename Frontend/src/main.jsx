@@ -14,6 +14,7 @@ import Image from './Components/Image';
 import OpenBook from './Components/OpenBook';
 import Notifications from './Components/Notifications';
 import BorrowForm from './Components/BorrowForm';
+import Dashboard from "./Components/Dashboard";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -28,6 +29,7 @@ const router = createBrowserRouter(
     <Route path='/book/:book_title' element={<OpenBook/>}/>
     <Route path='/notifications' element={<Notifications/>}/>
     <Route path='/:book_title/borrow' element={<BorrowForm/>}/>
+    <Route path='/dashboard' element={<Dashboard/>}/>
   </Route>
   )
 )
