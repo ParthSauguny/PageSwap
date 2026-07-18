@@ -1,37 +1,37 @@
 import React from 'react';
 import { BookOpen, Bookmark, Clock3 } from "lucide-react";
 
-const stats = [
-  {
-    title: "Books Shared",
-    value: 12,
-    icon: BookOpen,
-    color: "text-blue-600",
-    bg: "bg-blue-100",
-  },
-  {
-    title: "Books Borrowed",
-    value: 4,
-    icon: Bookmark,
-    color: "text-emerald-600",
-    bg: "bg-emerald-100",
-  },
-  {
-    title: "Pending Requests",
-    value: 2,
-    icon: Clock3,
-    color: "text-amber-600",
-    bg: "bg-amber-100",
-  },
-];
-
 function Stats({stats}) {
+  const statCards = [
+    {
+      title: "Books Shared",
+      value: stats.booksOwned,
+      icon: BookOpen,
+      color: "text-blue-600",
+      bg: "bg-blue-100",
+    },
+    {
+      title: "Currently Borrowing",
+      value: stats.currentlyBorrowing,
+      icon: Bookmark,
+      color: "text-emerald-600",
+      bg: "bg-emerald-100",
+    },
+    {
+      title: "Pending Requests",
+      value: stats.pendingIncoming,
+      icon: Clock3,
+      color: "text-amber-600",
+      bg: "bg-amber-100",
+    },
+  ];
+  
   return (
     <section className="mt-10">
 
         <div className="grid gap-6 md:grid-cols-3">
 
-            {stats.map((stat) => {
+            {statCards.map((stat) => {
 
             const Icon = stat.icon;
 

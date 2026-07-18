@@ -1,16 +1,16 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import { toast } from 'react-toastify';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 const BorrowForm = () => {
   const {book} = useLocation().state;
-  console.log(book);
+  const navigate = useNavigate();
   const [formData, setFormData] = useState({
     book_id: book._id,
     address: '',
-    comments: '',
   });
+  const [submitting, setSubmitting] = useState(false);
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -18,6 +18,7 @@ const BorrowForm = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setSubmitting(true);
 
     try {
       const res = await axios.post("/book/borrow-book", {
@@ -28,10 +29,13 @@ const BorrowForm = () => {
 
       if (res.status === 200) {
         toast.success("Request added. Please wait for confirmation by the owner.");
+        navigate("/books");
       }
     } catch (error) {
       console.error(error);
-      toast.error("Couldn't add request. Please try again later.");
+      toast.error(error.response?.data?.message || "Couldn't add request. Please try again later.");
+    } finally {
+      setSubmitting(false);
     }
   };
 
@@ -107,8 +111,8 @@ const BorrowForm = () => {
                     Status
                   </span>
 
-                  <span className="font-semibold text-green-600">
-                    Available
+                  <span className={`font-semibold ${book.available ? "text-green-600" : "text-red-500"}`}>
+                    {book.available ? "Available" : "Currently Borrowed"}
                   </span>
 
                 </div>
@@ -164,37 +168,6 @@ const BorrowForm = () => {
 
               </div>
 
-              {/* Comments */}
-
-              <div className="mt-4">
-
-                <label className="mb-2 block font-medium text-slate-700">
-                  Message to Owner
-                </label>
-
-                <textarea
-                  rows={6}
-                  name="comments"
-                  value={formData.comments}
-                  onChange={handleChange}
-                  placeholder="Introduce yourself or add anything you'd like the owner to know..."
-                  className="
-                  w-full
-                  rounded-xl
-                  border
-                  border-slate-200
-                  px-4
-                  py-2
-                  outline-none
-                  transition
-                  focus:border-blue-500
-                  focus:ring-4
-                  focus:ring-blue-100
-                  "
-                />
-
-              </div>
-
               {/* Info */}
 
               <div className="mt-4 rounded-2xl bg-blue-50 p-5">
@@ -214,20 +187,20 @@ const BorrowForm = () => {
 
               <button
                 type="submit"
-                className="
+                disabled={submitting}
+                className={`
                 mt-4
                 w-full
                 rounded-xl
-                bg-blue-600
                 py-4
                 text-lg
                 font-semibold
                 text-white
                 transition
-                hover:bg-blue-700
-                "
+                ${submitting ? "cursor-not-allowed bg-blue-400" : "bg-blue-600 hover:bg-blue-700"}
+                `}
               >
-                Send Borrow Request
+                {submitting ? "Sending Request..." : "Send Borrow Request"}
               </button>
 
             </form>

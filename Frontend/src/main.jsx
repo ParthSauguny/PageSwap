@@ -15,6 +15,7 @@ import OpenBook from './Components/OpenBook';
 import Notifications from './Components/Notifications';
 import BorrowForm from './Components/BorrowForm';
 import Dashboard from "./Components/Dashboard";
+import {AuthProvider} from "./Components/AuthContext";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -36,7 +37,9 @@ const router = createBrowserRouter(
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <>
-    <RouterProvider router={router}/>
+    <AuthProvider>
+      <RouterProvider router={router}/>
+    </AuthProvider>
     <ToastContainer/>
   </>
 )

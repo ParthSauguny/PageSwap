@@ -10,11 +10,13 @@ import {
   Wallet
 } from "lucide-react";
 import Navbar from "./navbar";
+import {useAuth} from './AuthContext';
 
 function OpenBook() {
   const location = useLocation();
-
+  const {user} = useAuth();
   const { book } = location.state;
+  const isOwnBook = user && book.owner?._id && user.id === book.owner._id;
 
   return (
     <>
@@ -174,23 +176,41 @@ function OpenBook() {
 
               {/* CTA */}
 
-              <Link to={`/${book.title}/borrow`} state={{book: book}}>
+              {isOwnBook ? (
                 <button
+                  disabled
                   className="
                     mt-12
+                    cursor-not-allowed
                     rounded-xl
-                    bg-blue-600
+                    bg-slate-200
                     px-8
                     py-4
                     text-lg
                     font-semibold
-                    text-white
-                    transition
-                    hover:bg-blue-700
+                    text-slate-500
                   ">
-                  Borrow This Book
+                  This Is Your Book
                 </button>
-              </Link>
+              ) : (
+                <Link to={`/${book.title}/borrow`} state={{book: book}}>
+                  <button
+                    className="
+                      mt-12
+                      rounded-xl
+                      bg-blue-600
+                      px-8
+                      py-4
+                      text-lg
+                      font-semibold
+                      text-white
+                      transition
+                      hover:bg-blue-700
+                    ">
+                    Borrow This Book
+                  </button>
+                </Link>
+              )}
 
             </div>
 

@@ -6,10 +6,13 @@ import {
   User,
   Bookmark,
 } from "lucide-react";
+import {useAuth} from "./AuthContext";
 
 function Card({book}) {
+  const {} = useAuth();
   const owner_name = book.owner?.username || "Unknown";
   const owner_id = book.owner?._id;
+  const isOwnBook = user && owner_id && user.id===owner_id;
 
   return (
     <div
@@ -85,6 +88,12 @@ function Card({book}) {
           >
             {book.available ? "Available" : "Borrowed"}
           </span>
+
+          {isOwnBook && (
+            <span className="rounded-full bg-indigo-100 px-3 py-1 text-xs font-semibold text-indigo-700">
+              Your Book
+            </span>
+          )}
 
           <span className="rounded-full bg-blue-50 px-3 py-1 text-xs font-medium text-blue-600">
             {book.genre}

@@ -1,52 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { BookOpen } from 'lucide-react';
 import Card from "../Card";
-
-const myBooks = [
-  {
-    _id: 1,
-    title: "Atomic Habits",
-    author: "James Clear",
-    genre: "Self Help",
-    available: true,
-    address: "Delhi",
-    image_url:
-      "https://images.unsplash.com/photo-1544947950-fa07a98d237f",
-    owner: {
-      username: "Parth",
-      _id: "123",
-    },
-  },
-  {
-    _id: 2,
-    title: "Deep Work",
-    author: "Cal Newport",
-    genre: "Productivity",
-    available: false,
-    address: "Mumbai",
-    image_url:
-      "https://images.unsplash.com/photo-1512820790803-83ca734da794",
-    owner: {
-      username: "Parth",
-      _id: "123",
-    },
-  },
-  {
-    _id: 3,
-    title: "Clean Code",
-    author: "Robert C. Martin",
-    genre: "Programming",
-    available: true,
-    address: "Chandigarh",
-    image_url:
-      "https://images.unsplash.com/photo-1495446815901-a7297e633e8d",
-    owner: {
-      username: "Parth",
-      _id: "123",
-    },
-  },
-];
-
 
 function Lib({books}) {
   return (
@@ -82,7 +37,7 @@ function Lib({books}) {
           </Link>
         </div>
 
-        {myBooks.length === 0 ? (
+        {books.length === 0 ? (
 
           <div className="rounded-3xl border border-dashed border-slate-300 bg-white py-20 text-center">
 
@@ -122,10 +77,10 @@ function Lib({books}) {
 
         <div className="grid gap-8 lg:grid-cols-3">
 
-            {myBooks.map((book) => (
+            {books.map((book) => (
 
                 <Card
-                    key={book._id}
+                    key={book.id}
                     book = {book}
                 />
 

@@ -27,12 +27,12 @@ function Signup() {
     try {
       const response = await axios.post("/user/signup", signupData);
 
-      if (response.status === 200) {
-        toast.success("Account created successfully! 🎉");
-        navigate("/");
+      if (response.status === 201) {
+        toast.success("Account created successfully! 🎉 Please Login.");
+        navigate("/user/login");
       }
     } catch (error) {
-      if (error.response?.status === 401) {
+      if (error.response?.status === 409) {
         toast.warning("Username or email already exists.");
       } else {
         toast.error("Something went wrong. Please try again.");

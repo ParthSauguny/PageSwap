@@ -20,7 +20,8 @@ router.post("/add-book", auth, upload.single('file'), async (req, res) => {
     
     try {
         // Upload image to Cloudinary
-        const upload = await uploadCloudinary(req.file.path);
+        const uploadResult = await uploadCloudinary(req.file.path);
+        if(!uploadResult) return res.status(502).json({message: "couldn't upload cover image"});
 
         // Create the book entry
         await Book.create({
@@ -53,27 +54,38 @@ router.get("/show-books", async (req, res) => {
 
 // Create a borrow request
 router.post("/borrow-book", auth, async (req, res) => {
-    const { name , book_id , bookTitle, address, bookOwner } = req.body;
-    console.log(bookTitle , req.user._id , bookOwner , address);
+    const { book_id, address } = req.body;
+
+    if (!book_id) {
+        return res.status(400).json({ message: "book_id is required." });
+    }
 
     try {
-        console.log("try catch");
+        const book = await Book.findById(book_id);
+        if (!book) {
+            return res.status(404).json({ message: "Book not found." });
+        }
+
+        // Prevent a user from requesting to borrow their own book
+        if (book.owner.toString() === req.user._id.toString()) {
+            return res.status(400).json({ message: "You can't borrow your own book." });
+        }
+
         // Create the borrow request
         const request = await Request.create({
             requester: req.user._id,
-            owner: new ObjectId(bookOwner),
-            book: new ObjectId(book_id),
+            owner: book.owner,
+            book: book._id,
             requesterAddress: address,
         });
 
         await Notification.create({
-            user: new ObjectId(bookOwner),
-            book: new ObjectId(book_id),
+            user: book.owner,
+            book: book._id,
             request: request._id,
-            message: `${name} wants to borrow your book ${bookTitle}`,
+            message: `${req.user.username} wants to borrow your book ${book.title}`,
         });
-        // Mark the book as unavailable after borrowing (optional)
-        console.log("request paadi");
+
         return res.status(200).json({ message: "Borrow request created successfully!" });
     } catch (error) {
         console.log(error);
@@ -83,38 +95,42 @@ router.post("/borrow-book", auth, async (req, res) => {
 
 router.post("/return-book", auth, async (req, res) => {
     const { request_id } = req.body;
-
+ 
     try {
         const request = await Request.findById(request_id);
         if (!request) {
             return res.status(404).json({ message: "Request not found" });
         }
-
+ 
         if (request.status !== 'accepted') {
             return res.status(400).json({ message: `Cannot return a request with status "${request.status}"` });
         }
-
+ 
         const userId = req.user._id.toString();
         if (userId !== request.requester.toString() && userId !== request.owner.toString()) {
             return res.status(403).json({ message: "Not authorized to return this book" });
         }
-
+ 
         request.status = 'completed';
         await request.save();
-
+ 
         const book = await Book.findByIdAndUpdate(
             request.book,
             { available: true },
             { new: true }
         );
-
+ 
+        // Notify whichever party didn't perform the return, not always the owner —
+        // otherwise the owner gets a pointless notification about their own action.
+        const recipient = userId === request.owner.toString() ? request.requester : request.owner;
+ 
         await Notification.create({
-            user: request.owner,
+            user: recipient,
             book: request.book,
             request: request._id,
-            message: `"${book?.title || 'Your book'}" has been marked as returned.`,
+            message: `"${book?.title || 'The book'}" has been marked as returned.`,
         });
-
+ 
         return res.status(200).json({ message: "Book returned successfully!" });
     } catch (error) {
         console.log(error);

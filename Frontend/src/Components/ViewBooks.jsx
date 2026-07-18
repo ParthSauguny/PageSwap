@@ -8,6 +8,7 @@ function ViewBooks() {
   const [books, setBooks] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
+  const [search, setSearch] = useState("");
 
   useEffect(() => {
     const fetchBooks = async () => {
@@ -24,6 +25,15 @@ function ViewBooks() {
 
     fetchBooks();
   }, []);
+
+  const filteredBooks = books.filter((book) => {
+    const query = search.trim().toLowerCase();
+    if (!query) return true;
+    return (
+      book.title?.toLowerCase().includes(query) ||
+      book.author?.toLowerCase().includes(query)
+    );
+  });
 
   return (
     <>
@@ -64,6 +74,8 @@ function ViewBooks() {
 
               <input
                 type="text"
+                value={search}
+                onChange={(e) => setSearch(e.target.value)}
                 placeholder="Search books or authors..."
                 className="ml-3 w-full bg-transparent outline-none"
               />
@@ -78,7 +90,7 @@ function ViewBooks() {
             <div className="mt-10 flex items-center justify-between">
 
               <h2 className="text-lg font-semibold text-slate-700">
-                {books.length} Books Available
+                {filteredBooks.length} Books Available
               </h2>
 
             </div>
@@ -124,13 +136,29 @@ function ViewBooks() {
             </div>
           )}
 
+          {/* No search results */}
+
+          {!loading && !error && books.length > 0 && filteredBooks.length === 0 && (
+            <div className="py-24 text-center">
+
+              <h2 className="text-3xl font-bold text-slate-900">
+                No matches found
+              </h2>
+
+              <p className="mt-3 text-slate-500">
+                Try a different title or author.
+              </p>
+
+            </div>
+          )}
+
           {/* Books */}
 
-          {!loading && !error && books.length > 0 && (
+          {!loading && !error && filteredBooks.length > 0 && (
 
             <div className="mt-10 grid gap-8 sm:grid-cols-2 xl:grid-cols-3">
 
-              {books.map((book) => (
+              {filteredBooks.map((book) => (
                 <Card
                     key={book._id}
                     book={book}

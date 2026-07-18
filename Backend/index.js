@@ -5,6 +5,7 @@ const bookRouter = require("./Routes/booksroutes");
 const userRouter = require("./Routes/user.js");
 const notificationRouter = require("./Routes/notifications.js")
 const cors = require("cors");
+require('dotenv').config();
 
 const PORT = process.env.PORT || 8000;
 const db_url = process.env.DB_URL;
@@ -25,7 +26,7 @@ app.use(cookieParser());
 app.use(express.urlencoded({extended: true}));
 app.use("/user" , userRouter);
 app.use("/book" , bookRouter);
-app.use("/noti" , notificationRouter);
+app.use("/notification" , notificationRouter);
 
 app.get('/' , (req,res) => {
     res.send("hello");

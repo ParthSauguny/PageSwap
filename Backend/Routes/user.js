@@ -1,6 +1,9 @@
 const express = require("express");
 const router = express.Router();
 const usermodel = require("../models/user");
+const auth = require('../middlewares/auth');
+const Book = require('../models/books');
+const Request = require('../models/requests');
 
 router.route("/signup").post(async (req, res) => {
     const { username, email, password } = req.body;
@@ -82,11 +85,11 @@ router.get("/profile", auth, async (req, res) => {
         const [user, ownedBooks, lentRequests, borrowedRequests] = await Promise.all([
             usermodel.findById(userId).select("-password -refreshtoken"),
             Book.find({ owner: userId }).sort({ createdAt: -1 }),
-            Request.find({ owner: userId, status: { $in: ["accepted", "completed"] } })
+            Request.find({ owner: userId })
                 .populate("book", "title author image_url")
                 .populate("requester", "username")
                 .sort({ createdAt: -1 }),
-            Request.find({ requester: userId, status: { $in: ["accepted", "completed"] } })
+            Request.find({ requester: userId })
                 .populate("book", "title author image_url")
                 .populate("owner", "username")
                 .sort({ createdAt: -1 }),
@@ -132,8 +135,36 @@ router.get("/profile", auth, async (req, res) => {
  
         const lendingActive = lentRequests.filter(r => r.status === "accepted").map(formatLentEntry);
         const lendingHistory = lentRequests.filter(r => r.status === "completed").map(formatLentEntry);
+        const lendingPending = lentRequests.filter(r => r.status === "pending").map(formatLentEntry);
+        const lendingRejected = lentRequests.filter(r => r.status === "rejected").map(formatLentEntry);
+ 
         const borrowingActive = borrowedRequests.filter(r => r.status === "accepted").map(formatBorrowedEntry);
         const borrowingHistory = borrowedRequests.filter(r => r.status === "completed").map(formatBorrowedEntry);
+        const borrowingPending = borrowedRequests.filter(r => r.status === "pending").map(formatBorrowedEntry);
+        const borrowingRejected = borrowedRequests.filter(r => r.status === "rejected").map(formatBorrowedEntry);
+ 
+        // Merged "recent requests" feed for the dashboard: every request touching
+        // this user (as owner or requester), regardless of status, most recent first.
+        const recentRequests = [
+            ...lentRequests.map(r => ({
+                requestId: r._id,
+                status: r.status,
+                role: "lending",
+                book: r.book ? { id: r.book._id, title: r.book.title } : null,
+                otherParty: r.requester ? { id: r.requester._id, username: r.requester.username } : null,
+                updatedAt: r.updatedAt,
+            })),
+            ...borrowedRequests.map(r => ({
+                requestId: r._id,
+                status: r.status,
+                role: "borrowing",
+                book: r.book ? { id: r.book._id, title: r.book.title } : null,
+                otherParty: r.owner ? { id: r.owner._id, username: r.owner.username } : null,
+                updatedAt: r.updatedAt,
+            })),
+        ]
+            .sort((a, b) => new Date(b.updatedAt) - new Date(a.updatedAt))
+            .slice(0, 5);
  
         return res.status(200).json({
             user: {
@@ -146,6 +177,7 @@ router.get("/profile", auth, async (req, res) => {
                 booksOwned: ownedBooks.length,
                 currentlyLentOut: lendingActive.length,
                 currentlyBorrowing: borrowingActive.length,
+                pendingIncoming: lendingPending.length,
                 totalTimesLent: lendingHistory.length,
                 totalTimesBorrowed: borrowingHistory.length,
             },
@@ -157,20 +189,34 @@ router.get("/profile", auth, async (req, res) => {
                 image_url: b.image_url,
                 available: b.available,
                 price: b.price,
+                address: b.address,
             })),
             lending: {
                 active: lendingActive,
                 history: lendingHistory,
+                pending: lendingPending,
+                rejected: lendingRejected,
             },
             borrowing: {
                 active: borrowingActive,
                 history: borrowingHistory,
+                pending: borrowingPending,
+                rejected: borrowingRejected,
             },
+            recentRequests,
         });
     } catch (error) {
         console.log(error);
         return res.status(500).json({ message: "Error fetching profile." });
     }
+});
+
+router.get("/me" , auth , async(req,res) => {
+    return res.status(200).json({
+        id: req.user._id,
+        username: req.user.username,
+        email: req.user.email
+    });
 });
 
 router.get("/logout", auth, async (req, res) => {
