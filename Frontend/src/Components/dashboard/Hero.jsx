@@ -1,6 +1,19 @@
 import React from 'react'
+import { useNavigate } from 'react-router-dom'
+import { toast } from 'react-toastify'
+import { LogOut } from 'lucide-react'
+import { useAuth } from '../AuthContext'
 
 function Hero({user}) {
+  const { logout } = useAuth();
+  const navigate = useNavigate();
+
+  const handleLogout = async () => {
+    await logout();
+    toast.success("Logged out successfully.");
+    navigate("/user/login");
+  };
+
   return (
     <section className="rounded-3xl border border-slate-200 bg-white p-8 shadow-sm">
 
@@ -42,7 +55,7 @@ function Hero({user}) {
 
             {/* Right */}
 
-            <div>
+            <div className="flex gap-3">
 
                 <button
                     className="
@@ -59,6 +72,29 @@ function Hero({user}) {
                 >
 
                     Edit Profile
+
+                </button>
+
+                <button
+                    onClick={handleLogout}
+                    className="
+                    flex
+                    items-center
+                    gap-2
+                    rounded-xl
+                    border
+                    border-red-200
+                    px-6
+                    py-3
+                    font-semibold
+                    text-red-600
+                    transition
+                    hover:bg-red-50
+                    "
+                >
+
+                    <LogOut size={18} />
+                    Logout
 
                 </button>
 

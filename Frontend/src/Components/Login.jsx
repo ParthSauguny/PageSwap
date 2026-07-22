@@ -4,6 +4,7 @@ import axios from "axios";
 import { toast } from "react-toastify";
 import Logo from "../Assets/Logo.jpg";
 import { BookOpen, Library, Users } from "lucide-react";
+import { useAuth } from "./AuthContext";
 
 function Login() {
   const [logindata, setLogindata] = useState({
@@ -12,6 +13,7 @@ function Login() {
   });
 
   const navigate = useNavigate();
+  const { refetchUser } = useAuth();
 
   function changehandler(event) {
     setLogindata((prevdata) => ({
@@ -30,6 +32,7 @@ function Login() {
 
       if (res.status === 200) {
         toast.success("Logged in successfully! 🎉");
+        await refetchUser(); // so the navbar/profile icon reflect the new session immediately
         navigate("/books");
       }
     } catch (error) {
