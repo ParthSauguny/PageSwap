@@ -15,7 +15,7 @@ export default defineConfig({
         changeOrigin: true,
         secure: false,
       },
-      '/api':{
+      '/notification':{
         target: 'http://localhost:5000',  // Backend API server
         changeOrigin: true,
         secure: false,
