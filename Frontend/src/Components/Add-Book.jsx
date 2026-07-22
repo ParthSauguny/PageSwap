@@ -1,6 +1,7 @@
 import React, { useState , useRef } from 'react';
 import {useNavigate} from 'react-router-dom'
 import axios from 'axios';
+import { toast } from 'react-toastify';
 import { ArrowLeft, Upload } from "lucide-react";
 import { Link } from "react-router-dom";
 
@@ -12,7 +13,6 @@ const AddBook = () => {
   const [price, setPrice] = useState(0);
   const [file , setFile] = useState(null);
   const [error, setError] = useState('');
-  const [success, setSuccess] = useState('');
 
   const navigate = useNavigate();
 
@@ -23,7 +23,6 @@ const AddBook = () => {
 const handleSubmit = async (e) => {
   e.preventDefault();
   setError('');
-  setSuccess('');
   setLoading(true);  // Enable loading state
 
   if (!title || !author || !genre || !address || !file) {
@@ -31,7 +30,6 @@ const handleSubmit = async (e) => {
     setLoading(false);
     return;
   }
-  console.log("stage 1 OK !!!!!");
 
   const formData = new FormData();
   formData.append('title', title);
@@ -42,34 +40,26 @@ const handleSubmit = async (e) => {
   formData.append('available', true);
   if (file) formData.append('file', file);
 
-  console.log("stage 2 crossed !!!!!");
-
   try {
-    console.log(" entering try catch ");
-    
-    const res = await axios.post('http://localhost:5000/book/add-book', formData, {
+    const res = await axios.post('/book/add-book', formData, {
       withCredentials: true,
       headers: { 'Content-Type': 'multipart/form-data' }
     });
-    console.log("data sent");
 
-    if(res.status === 200){
-      setSuccess('Book added successfully!');
+    if(res.status === 201){
+      setTitle(''); setAuthor(''); setGenre(''); setAddress(''); setPrice(0); setFile(null);
+      if (fileInputRef.current) fileInputRef.current.value = '';
+
+      // Let the dashboard show its own toast on arrival, rather than firing
+      // one here that gets cut off mid-animation by the page transition.
+      navigate('/dashboard', { state: { toast: 'Book added! Check your library below 📚' } });
     }
-
-    console.log("added book");
-    
-    setTitle(''); setAuthor(''); setGenre(''); setAddress(''); setPrice(0); setFile(null);
-    if (fileInputRef.current) fileInputRef.current.value = '';
-
-    console.log("all done");
   } catch (err) {
     if(err.response && err.response.status === 401){
       navigate('/user/login');
+      return;
     }
-    setError('Failed to add book. Please try again.');
-    console.log("error aagya pencho oye");
-    
+    setError(err.response?.data?.message || 'Failed to add book. Please try again.');
     console.error(err);
   } finally {
     setLoading(false);  // Disable loading state
@@ -316,12 +306,6 @@ const handleSubmit = async (e) => {
               {error && (
                 <p className="mt-5 text-center text-red-600">
                   {error}
-                </p>
-              )}
-
-              {success && (
-                <p className="mt-5 text-center text-green-600">
-                  {success}
                 </p>
               )}
 

@@ -71,7 +71,7 @@ function HowItWorks() {
                 <div className="mx-auto flex h-20 w-20 items-center justify-center rounded-full bg-blue-50 transition duration-300 group-hover:bg-blue-600">
 
                   <Icon
-                    size={36}
+                    size={50}
                     className="text-blue-600 transition duration-300 group-hover:text-white"
                   />
 
@@ -100,12 +100,12 @@ function HowItWorks() {
           {/* Connecting Arrows */}
 
           <ArrowRight
-            className="absolute left-[32%] top-24 hidden text-slate-300 xl:block"
+            className="absolute left-[31%] top-24 hidden text-slate-300 xl:block"
             size={38}
           />
 
           <ArrowRight
-            className="absolute right-[32%] top-24 hidden text-slate-300 xl:block"
+            className="absolute right-[31%] top-24 hidden text-slate-300 xl:block"
             size={38}
           />
 

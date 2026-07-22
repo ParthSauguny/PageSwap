@@ -27,7 +27,7 @@ router.post("/add-book", auth, upload.single('file'), async (req, res) => {
         await Book.create({
             title: body.title,
             owner: req.user._id,
-            image_url: upload.secure_url,
+            image_url: uploadResult.secure_url,
             author: body.author,
             genre: body.genre,
             available: body.available !== undefined ? body.available : true, // Default to true if not provided

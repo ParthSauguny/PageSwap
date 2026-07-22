@@ -19,7 +19,7 @@ const actions = [
     title: "Browse Books",
     description: "Explore books shared by the community.",
     icon: BookOpen,
-    link: "/book/show-books",
+    link: "/books",
     color: "text-emerald-600",
     bg: "bg-emerald-100",
   },

@@ -13,10 +13,31 @@ router.get('/', auth, async (req, res) => {
             .sort({ createdAt: -1 })
             .populate('book', 'title')
             .populate('request', 'status');
+
         res.json(notifications);
+
+        // Mark everything as read now that the user has seen the list.
+        // Done after responding so it doesn't delay the request, and the
+        // response above still reflects each notification's read status
+        // as it was *before* this visit (useful if you want to visually
+        // distinguish "new since last visit" later).
+        await Notification.updateMany({ user: userId, read: false }, { read: true });
     } catch (error) {
         console.log(error);
         res.status(500).json({ message: "Error fetching notifications" });
+    }
+});
+
+// Lightweight unread count, used for a navbar badge — avoids fetching
+// the full notification list (with populated book/request) just to
+// show a number.
+router.get('/unread-count', auth, async (req, res) => {
+    try {
+        const count = await Notification.countDocuments({ user: req.user._id, read: false });
+        res.json({ count });
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({ message: "Error fetching unread count" });
     }
 });
 

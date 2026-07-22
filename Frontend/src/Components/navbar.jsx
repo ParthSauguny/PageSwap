@@ -1,11 +1,37 @@
-import React from "react";
-import { Link } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { Link, useLocation } from "react-router-dom";
+import axios from "axios";
 import Logo from "../Assets/Logo.jpg";
 import { Heart, BookOpen, CircleUserRound } from "lucide-react";
-import { useAuth } from "../context/AuthContext";
+import { useAuth } from "./AuthContext";
 
 function Navbar() {
   const { user, loading } = useAuth();
+  const location = useLocation();
+  const [unreadCount, setUnreadCount] = useState(0);
+
+  useEffect(() => {
+    if (!user) {
+      setUnreadCount(0);
+      return;
+    }
+
+    const fetchUnreadCount = async () => {
+      try {
+        const { data } = await axios.get("/notification/unread-count", { withCredentials: true });
+        setUnreadCount(data.count);
+      } catch (err) {
+        // Non-critical — a failed badge fetch shouldn't disrupt navigation.
+        console.error(err);
+      }
+    };
+
+    fetchUnreadCount();
+    // Re-check whenever the route changes — this is what clears the badge
+    // after visiting /notifications (which marks everything read) without
+    // needing a full page reload.
+  }, [user, location.pathname]);
+
   return (
     <header className="sticky top-0 z-50 border-b border-slate-200 bg-white/80 backdrop-blur-xl">
       <nav className="mx-auto flex h-20 max-w-7xl items-center justify-between px-6 lg:px-10">
@@ -49,11 +75,19 @@ function Navbar() {
             About Us
           </Link>
 
-          <button
-            className="rounded-full p-2 text-slate-600 transition hover:bg-red-50 hover:text-red-500"
-          >
-            <Heart size={20} />
-          </button>
+          {user && (
+            <Link
+              to="/notifications"
+              className="relative rounded-full p-2 text-slate-600 transition hover:bg-blue-50 hover:text-blue-600"
+            >
+              <Heart size={20} />
+              {unreadCount > 0 && (
+                <span className="absolute -right-0.5 -top-0.5 flex h-4.5 min-w-[18px] items-center justify-center rounded-full bg-red-500 px-1 text-[10px] font-bold text-white">
+                  {unreadCount > 9 ? "9+" : unreadCount}
+                </span>
+              )}
+            </Link>
+          )}
 
         </div>
 

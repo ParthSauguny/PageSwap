@@ -9,7 +9,7 @@ import {
 import {useAuth} from "./AuthContext";
 
 function Card({book}) {
-  const {} = useAuth();
+  const {user} = useAuth();
   const owner_name = book.owner?.username || "Unknown";
   const owner_id = book.owner?._id;
   const isOwnBook = user && owner_id && user.id===owner_id;
