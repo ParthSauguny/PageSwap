@@ -1,6 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import { createBrowserRouter, createRoutesFromElements, Route, RouterProvider } from "react-router-dom";
+import axios from 'axios';
 import "./index.css";
 import Layout from './Layout';
 import Login from './Components/Login';
@@ -16,6 +17,8 @@ import Notifications from './Components/Notifications';
 import BorrowForm from './Components/BorrowForm';
 import Dashboard from "./Components/Dashboard";
 import {AuthProvider} from "./Components/AuthContext";
+
+axios.defaults.baseURL = import.meta.env.VITE_API_URL || '';
 
 const router = createBrowserRouter(
   createRoutesFromElements(

@@ -1,5 +1,4 @@
 const v2 = require('cloudinary');
-const {unlinkSync} = require('fs');
 require('dotenv').config();
 
 v2.config({
@@ -8,26 +7,26 @@ v2.config({
     api_secret: process.env.CLOUDINARY_API_SECRET,
 });
 
-async function uploadCloudinary(localfilepath){
-    if(!localfilepath) return null;
-    try {
-        const res = await v2.uploader.upload(localfilepath , {
-            resource_type: "auto"
-        })
-        //file uploaded yayyyy
-        unlinkSync(localfilepath);
-        console.log("deleted file after upload");
-        
-        return res;
-    } catch (error) {
-        console.error("Upload failed, deleting local file.", error);
-        try {
-            unlinkSync(localfilepath);
-        } catch (unlinkError) {
-            console.error("Failed to clean up local file after failed upload.", unlinkError);
-        }
-        return null;
-    }
-};
+// Takes an in-memory buffer (from multer's memoryStorage) rather than a
+// local file path — Vercel's serverless filesystem is read-only outside
+// /tmp and ephemeral even there, so nothing here ever touches disk.
+async function uploadCloudinary(fileBuffer) {
+    if (!fileBuffer) return null;
+
+    return new Promise((resolve) => {
+        const uploadStream = v2.uploader.upload_stream(
+            { resource_type: "auto" },
+            (error, result) => {
+                if (error) {
+                    console.error("Upload failed.", error);
+                    resolve(null);
+                    return;
+                }
+                resolve(result);
+            }
+        );
+        uploadStream.end(fileBuffer);
+    });
+}
 
 module.exports = uploadCloudinary;

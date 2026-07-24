@@ -2,7 +2,7 @@ const express = require("express");
 const router = express.Router();
 const Book = require("../models/books");
 const multer = require("multer");
-const upload = multer({ dest: './uploads/cover-image' });
+const upload = multer({ storage: multer.memoryStorage() });
 const auth = require('../middlewares/auth');
 const uploadCloudinary = require('../utils/cloudinary');
 const Request = require('../models/requests');
@@ -20,7 +20,7 @@ router.post("/add-book", auth, upload.single('file'), async (req, res) => {
     
     try {
         // Upload image to Cloudinary
-        const uploadResult = await uploadCloudinary(req.file.path);
+        const uploadResult = await uploadCloudinary(req.file.buffer);
         if(!uploadResult) return res.status(502).json({message: "couldn't upload cover image"});
 
         // Create the book entry
