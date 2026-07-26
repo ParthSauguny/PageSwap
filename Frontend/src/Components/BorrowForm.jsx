@@ -1,16 +1,31 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import { toast } from 'react-toastify';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate, Navigate } from 'react-router-dom';
+import { useAuth } from './AuthContext';
 
 const BorrowForm = () => {
-  const {book} = useLocation().state;
+  const location = useLocation();
   const navigate = useNavigate();
+  const { user, loading } = useAuth();
+  const book = location.state?.book;
+
+  // Hooks must run unconditionally, every render — so these are declared
+  // before any early-return guards below, even though formData only makes
+  // sense once we know `book` exists.
   const [formData, setFormData] = useState({
-    book_id: book._id,
+    book_id: book?._id,
     address: '',
   });
   const [submitting, setSubmitting] = useState(false);
+
+  if (!book) {
+    return <Navigate to="/books" replace />;
+  }
+
+  if (!loading && !user) {
+    return <Navigate to="/user/login" state={{ from: `/${book.title}/borrow`, book }} replace />;
+  }
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -33,6 +48,11 @@ const BorrowForm = () => {
       }
     } catch (error) {
       console.error(error);
+      if (error.response?.status === 401) {
+        toast.warning("Please log in to continue.");
+        navigate("/user/login", { state: { from: `/${book.title}/borrow`, book } });
+        return;
+      }
       toast.error(error.response?.data?.message || "Couldn't add request. Please try again later.");
     } finally {
       setSubmitting(false);

@@ -14,7 +14,7 @@ import {useAuth} from './AuthContext';
 
 function OpenBook() {
   const location = useLocation();
-  const {user} = useAuth();
+  const {user, loading} = useAuth();
   const { book } = location.state;
   const isOwnBook = user && book.owner?._id && user.id === book.owner._id;
 
@@ -176,7 +176,23 @@ function OpenBook() {
 
               {/* CTA */}
 
-              {isOwnBook ? (
+              {loading ? (
+                <button
+                  disabled
+                  className="
+                    mt-12
+                    cursor-not-allowed
+                    rounded-xl
+                    bg-slate-200
+                    px-8
+                    py-4
+                    text-lg
+                    font-semibold
+                    text-slate-500
+                  ">
+                  Checking...
+                </button>
+              ) : isOwnBook ? (
                 <button
                   disabled
                   className="
@@ -192,6 +208,24 @@ function OpenBook() {
                   ">
                   This Is Your Book
                 </button>
+              ) : !user ? (
+                <Link to="/user/login" state={{ from: location.pathname, book: book }}>
+                  <button
+                    className="
+                      mt-12
+                      rounded-xl
+                      bg-blue-600
+                      px-8
+                      py-4
+                      text-lg
+                      font-semibold
+                      text-white
+                      transition
+                      hover:bg-blue-700
+                    ">
+                    Login to Borrow
+                  </button>
+                </Link>
               ) : (
                 <Link to={`/${book.title}/borrow`} state={{book: book}}>
                   <button

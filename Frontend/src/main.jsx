@@ -9,6 +9,7 @@ import Signup from './Components/Signup';
 import Home from './Components/Home';
 import AboutUs from './Components/AboutUs';
 import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import AddBook from './Components/Add-Book';
 import ViewBooks from './Components/ViewBooks';
 import Image from './Components/Image';

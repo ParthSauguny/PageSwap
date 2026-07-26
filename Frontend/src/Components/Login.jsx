@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { toast } from "react-toastify";
 import Logo from "../Assets/Logo.jpg";
@@ -13,6 +13,7 @@ function Login() {
   });
 
   const navigate = useNavigate();
+  const location = useLocation();
   const { refetchUser } = useAuth();
 
   function changehandler(event) {
@@ -33,7 +34,12 @@ function Login() {
       if (res.status === 200) {
         toast.success("Logged in successfully! 🎉");
         await refetchUser(); // so the navbar/profile icon reflect the new session immediately
-        navigate("/books");
+
+        if (location.state?.from && location.state?.book) {
+          navigate(location.state.from, { state: { book: location.state.book } });
+        } else {
+          navigate("/books");
+        }
       }
     } catch (error) {
       if (error.response?.status === 400) {
