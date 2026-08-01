@@ -67,7 +67,8 @@ router.route("/login").post(async(req,res) => {
 
         const options = {
             httpOnly:true,
-            secure:true
+            secure:true,
+            sameSite: none
         }
         
         return res.status(200).cookie("accesstoken" , accesstoken , options).cookie("refreshtoken" , refreshtoken , options).json({ message: "Login successful" });

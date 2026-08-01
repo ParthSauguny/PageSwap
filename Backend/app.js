@@ -17,6 +17,7 @@ mongo.connect(db_url)
     .catch(error => console.log(error));
 
 const app = express();
+app.set('trust proxy' , 1);
 
 // FRONTEND_URL should be set to your deployed frontend's actual domain in
 // production (e.g. https://pageswap.vercel.app). Falls back to the local
